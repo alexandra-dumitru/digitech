@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Promotype:</strong>
+  <%= @promocode.promotype %>
+</p>
+
+<p>
+  <strong>Promovalue:</strong>
+  <%= @promocode.promovalue %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @promocode.user_id %>
+</p>
+
+<%= link_to 'Edit', edit_promocode_path(@promocode) %> |
+<%= link_to 'Back', promocodes_path %>
