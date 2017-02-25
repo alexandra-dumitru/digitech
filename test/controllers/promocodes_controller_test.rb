@@ -17,7 +17,7 @@ class PromocodesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create promocode" do
     assert_difference('Promocode.count') do
-      post promocodes_url, params: { promocode: { promotype: @promocode.promotype, promovalue: @promocode.promovalue, string: @promocode.string, user_id: @promocode.user_id } }
+      post promocodes_url, params: { promocode: { promotype: @promocode.promotype, promovalue: @promocode.promovalue, user_id: @promocode.user_id } }
     end
 
     assert_redirected_to promocode_url(Promocode.last)
@@ -34,7 +34,7 @@ class PromocodesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update promocode" do
-    patch promocode_url(@promocode), params: { promocode: { promotype: @promocode.promotype, promovalue: @promocode.promovalue, string: @promocode.string, user_id: @promocode.user_id } }
+    patch promocode_url(@promocode), params: { promocode: { promotype: @promocode.promotype, promovalue: @promocode.promovalue, user_id: @promocode.user_id } }
     assert_redirected_to promocode_url(@promocode)
   end
 

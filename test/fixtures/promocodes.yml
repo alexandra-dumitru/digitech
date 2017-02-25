@@ -3,11 +3,9 @@
 one:
   promotype: 1
   promovalue: MyString
-  string: MyString
   user_id: 1
 
 two:
   promotype: 1
   promovalue: MyString
-  string: MyString
   user_id: 1
