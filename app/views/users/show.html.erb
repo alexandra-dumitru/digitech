@@ -5,10 +5,12 @@
 </h1>
 
 <p id="notice"><%= notice %></p>
-<p>
+<p class="center">
   <strong>Email:</strong>
   <%= @user.email %> &nbsp; &nbsp;
   <%= link_to 'Edit', edit_user_path(@user) %> 
 </p>
 
-<%= link_to 'Back', users_path %>
+<p class="center" id="signup_link"> <strong> <%= link_to 'Browse products', home_path %> </strong> </p>
+
+

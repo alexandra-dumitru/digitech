@@ -23,8 +23,25 @@ textarea {
   margin-bottom: 10px;
 }
 
+header {
+  background-color: #fff;
+}
+
 #home_body {
   background-image: url(home_background.jpg);
+  background-position: center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#signup_link a {
+  color: #337ab7;
+}
+
+#signup_link a:hover {
+  color: #fff;
 }
 
 /* forms */
@@ -76,7 +93,7 @@ h1 {
   letter-spacing: -2px;
   margin-bottom: 30px;
   text-align: center;
-  color: #777 !important;
+  color: #777;
 }
 
 h2 {
@@ -85,7 +102,7 @@ h2 {
   margin-bottom: 30px;
   text-align: center;
   font-weight: normal;
-  color: #777;
+  color: #fff;
 }
 
 p {
@@ -101,14 +118,4 @@ $gray-medium-light: #eaeaea;
   -moz-box-sizing:    border-box;
   -webkit-box-sizing: border-box;
   box-sizing:         border-box;
-}
-
-/* miscellaneous */
-
-.debug_dump {
-  clear: both;
-  float: left;
-  width: 100%;
-  margin-top: 45px;
-  @include box_sizing;
 }
