@@ -5,32 +5,36 @@
   <h1 style="color: #fff">Welcome to Digitech's Apple shop</h1>
   <h2>In order to purchase items you need to sign up or log in if you already have an account.</h2>
   <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-default" %>
-  <br><br>
+  <br>
+  <hr class="line-separator">
+  <p class="lead" style="color:#ffffff"> Browse products </p>
 
   <div class="row">
 	  <div class="col-sm-6 col-md-4">
-	    <div class="thumbnail">
-	      <%= image_tag("iphone7.jpg", alt: "iPhone 7")%>
+	  	<%= link_to iphone_products_path do %>
+		    <div class="thumbnail thumbnail-border-iphone">
+		      <%= image_tag("iphone7.jpg", alt: "iPhone")%>
+		      <div class="caption">
+		        <h3>iPhone</h3>
+		      </div>
+		    </div>
+	    <% end %>
+	  </div>
+
+	  <div class="col-sm-6 col-md-4">
+	    <div class="thumbnail thumbnail-border-mac">
+	      <%= image_tag("macbook.jpg", alt: "Macbook")%>
 	      <div class="caption">
-	        <h3>iPhone 7 </h3>
+	        <h3>Mac</h3>
 	      </div>
 	    </div>
 	  </div>
 
 	  <div class="col-sm-6 col-md-4">
-	    <div class="thumbnail">
-	      <%= image_tag("iphone6.jpg", alt: "iPhone 6")%>
+	    <div class="thumbnail thumbnail-border-watch">
+	      <%= image_tag("watch2.jpg", alt: "Watch")%>
 	      <div class="caption">
-	        <h3>iPhone 6 </h3>
-	      </div>
-	    </div>
-	  </div>
-
-	  <div class="col-sm-6 col-md-4">
-	    <div class="thumbnail">
-	      <%= image_tag("iPhoneSE.jpg", alt: "iPhone SE")%>
-	      <div class="caption">
-	        <h3>iPhone SE </h3>
+	        <h3>Watch</h3>
 	      </div>
 	    </div>
 	  </div>

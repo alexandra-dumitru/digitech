@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   get '/login',   to: 'sessions#new'
   post '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
+  get '/iphone_products', to: 'static_pages#iphone_products'
+  post '/order_product', to: 'static_pages#order'
 
   resources :promocodes
   resources :users
