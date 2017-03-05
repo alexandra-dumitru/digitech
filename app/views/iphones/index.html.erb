@@ -1,0 +1,158 @@
+<% provide(:title, "Iphone Products") %>
+
+<div class="center jumbotron products-body" style="background-color: #cccccc">
+  <h1><small>Select your desired product</small></h1>
+  <div class="tabbable-panel">
+    <div class="tabbable-line">
+      <ul class="nav nav-tabs">
+          <li class="active"><a data-toggle="tab" href="#iphone7">iPhone 7</a></li>
+          <li><a data-toggle="tab" href="#iphone6">iPhone 6</a></li>
+          <li><a data-toggle="tab" href="#iphonese">iPhone SE</a></li>
+      </ul>
+      <div class="tab-content">
+          <div id="iphone7" class="tab-pane fade in active">
+            <div class="row">
+              <% if Iphone.where(phone_type: '7').exists? %>
+                <div class="col-xs-6 col-md-6">
+                  <%= image_tag("iphone7-product.jpg", alt: "iPhone 7")%>
+                  <p> iPhone 7 îmbunătățește dramatic cele mai importante aspecte ale experienței de utilizare iPhone. El introduce cele mai avansate noi camere. Cea mai bună performanță și autonomie a bateriei unui iPhone. Difuzoare stereo care-ți oferă o calitate a sunetului incredibilă. Cel mai luminos, și care redă cele mai multe culori ecran de iPhone. Rezistent la stropi și apă. </p>
+                </div>
+                <div class="col-xs-6 col-md-4">
+                   <table>
+                    <thead>
+                      <tr>
+                        <th>iPhone type</th>
+                        <th>Model</th>
+                        <th>Size</th>
+                        <th>Color</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th colspan="3"></th>
+                      </tr>
+                    </thead>
+                   
+                    <tbody>
+                      <% @iphones.each do |iphone| %>
+                        <tr>
+                          <% if iphone.phone_type == '7' %>
+                            <td><%= iphone.phone_type %></td>
+                            <td><%= iphone.model %></td>
+                            <td><%= iphone.size %></td>
+                            <td><%= iphone.color %></td>
+                            <td><%= iphone.description %></td>
+                            <td><%= iphone.price %></td>
+                            <td><%= link_to 'Show', iphone %></td>
+                            <td><%= link_to 'Edit', edit_iphone_path(iphone) %></td>
+                            <td><%= link_to 'Destroy', iphone, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                          <% end %>
+                        </tr>
+                      <% end %>
+                    </tbody>
+                   </table>
+
+                   
+                
+                </div>
+              <% else %>
+                <p class="not-available"> iPhone 7 is not available at this moment </p>
+              <% end %>
+            </div>
+          </div>
+          <div id="iphone6" class="tab-pane fade">
+            <div class="row"> 
+            <% if Iphone.where(phone_type: '6').exists? %>
+              <div class="col-xs-6 col-md-6">
+                  <%= image_tag("iphone6-product.jpg", alt: "iPhone 6")%>
+                  <p> iPhone 6 îmbunătățește dramatic cele mai importante aspecte ale experienței de utilizare iPhone. El introduce cele mai avansate noi camere. Cea mai bună performanță și autonomie a bateriei unui iPhone. Difuzoare stereo care-ți oferă o calitate a sunetului incredibilă. Cel mai luminos, și care redă cele mai multe culori ecran de iPhone. Rezistent la stropi și apă. </p>
+                </div>
+                <div class="col-xs-6 col-md-4">
+                   <table>
+                    <thead>
+                      <tr>
+                        <th>iPhone type</th>
+                        <th>Model</th>
+                        <th>Size</th>
+                        <th>Color</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th colspan="3"></th>
+                      </tr>
+                    </thead>
+                   
+                    <tbody>
+                      <% @iphones.each do |iphone| %>
+                        <tr>
+                          <% if iphone.phone_type == '6' %>
+                            <td><%= iphone.phone_type %></td>
+                            <td><%= iphone.model %></td>
+                            <td><%= iphone.size %></td>
+                            <td><%= iphone.color %></td>
+                            <td><%= iphone.description %></td>
+                            <td><%= iphone.price %></td>
+                            <td><%= link_to 'Show', iphone %></td>
+                            <td><%= link_to 'Edit', edit_iphone_path(iphone) %></td>
+                            <td><%= link_to 'Destroy', iphone, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                          <% end %>
+                        </tr>
+                      <% end %>
+                    </tbody>
+                   </table>
+                </div>
+            <% else %>
+                <p class="not-available"> iPhone 6 is not available at this moment </p>
+            <% end %>
+            </div>
+          </div>
+          <div id="iphonese" class="tab-pane fade">
+            <div class="row"> 
+            <% if Iphone.where(phone_type: 'SE').exists? %>
+              <div class="col-xs-6 col-md-6">
+                  <%= image_tag("iphonese-product.jpg", alt: "iPhone SE")%>
+                  <p> iPhone SE îmbunătățește dramatic cele mai importante aspecte ale experienței de utilizare iPhone. El introduce cele mai avansate noi camere. Cea mai bună performanță și autonomie a bateriei unui iPhone. Difuzoare stereo care-ți oferă o calitate a sunetului incredibilă. Cel mai luminos, și care redă cele mai multe culori ecran de iPhone. Rezistent la stropi și apă. </p>
+                </div>
+                <div class="col-xs-6 col-md-4">
+                   <table>
+                    <thead>
+                      <tr>
+                        <th>iPhone type</th>
+                        <th>Model</th>
+                        <th>Size</th>
+                        <th>Color</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th colspan="3"></th>
+                      </tr>
+                    </thead>
+                   
+                    <tbody>
+                      <% @iphones.each do |iphone| %>
+                        <tr>
+                          <% if iphone.phone_type == 'SE' %>
+                            <td><%= iphone.phone_type %></td>
+                            <td><%= iphone.model %></td>
+                            <td><%= iphone.size %></td>
+                            <td><%= iphone.color %></td>
+                            <td><%= iphone.description %></td>
+                            <td><%= iphone.price %></td>
+                            <td><%= link_to 'Show', iphone %></td>
+                            <td><%= link_to 'Edit', edit_iphone_path(iphone) %></td>
+                            <td><%= link_to 'Destroy', iphone, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                          <% end %>
+                        </tr>
+                      <% end %>
+                    </tbody>
+                   </table>           
+                </div>
+            <% else %>
+              <p class="not-available"> iPhone SE is not available at this moment </p>
+            <% end %>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>  
+</div>
+
+<br>
+
+<%= link_to 'New Iphone', new_iphone_path %>

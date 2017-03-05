@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @mac.type %>
+</p>
+
+<p>
+  <strong>Size:</strong>
+  <%= @mac.size %>
+</p>
+
+<p>
+  <strong>Color:</strong>
+  <%= @mac.color %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @mac.description %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @mac.price %>
+</p>
+
+<%= link_to 'Edit', edit_mac_path(@mac) %> |
+<%= link_to 'Back', macs_path %>

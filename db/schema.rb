@@ -10,7 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170225130626) do
+ActiveRecord::Schema.define(version: 20170303181123) do
+
+  create_table "iphones", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "phone_type"
+    t.string   "model"
+    t.integer  "size"
+    t.string   "color"
+    t.text     "description", limit: 65535
+    t.decimal  "price",                     precision: 10
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+  end
+
+  create_table "macs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "mac_type"
+    t.integer  "size"
+    t.string   "color"
+    t.text     "description", limit: 65535
+    t.decimal  "price",                     precision: 10
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+  end
 
   create_table "promocodes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "promotype"
@@ -26,7 +47,15 @@ ActiveRecord::Schema.define(version: 20170225130626) do
     t.string   "password_digest"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.string   "gift_card_code"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+  end
+
+  create_table "watches", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.text     "description", limit: 65535
+    t.decimal  "price",                     precision: 10
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
   end
 
 end

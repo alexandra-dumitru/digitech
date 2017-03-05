@@ -1,0 +1,69 @@
+<% provide(:title, "Iphone Products") %>
+
+<div class="center jumbotron products-body" style="background-color: #cccccc">
+  <h1><small>Select your desired product</small></h1>
+  <div class="tabbable-panel">
+    <div class="tabbable-line">
+      <ul class="nav nav-tabs">
+          <li class="active"><a data-toggle="tab" href="#iphone7">iPhone 7</a></li>
+          <li><a data-toggle="tab" href="#iphone6">iPhone 6</a></li>
+          <li><a data-toggle="tab" href="#iphonese">iPhone SE</a></li>
+      </ul>
+      <div class="tab-content">
+          <div id="iphone7" class="tab-pane fade in active">
+            <div class="row">
+              <% if Iphone.where(phone_type: '7').exists? %>
+                <div class="col-xs-6 col-md-6">
+                  <%= image_tag("iphone7-product.jpg", alt: "iPhone 7")%>
+                  <p> iPhone 7 îmbunătățește dramatic cele mai importante aspecte ale experienței de utilizare iPhone. El introduce cele mai avansate noi camere. Cea mai bună performanță și autonomie a bateriei unui iPhone. Difuzoare stereo care-ți oferă o calitate a sunetului incredibilă. Cel mai luminos, și care redă cele mai multe culori ecran de iPhone. Rezistent la stropi și apă. </p>
+                </div>
+                <div class="col-xs-6 col-md-4">
+                   <%= form_for(@iphone) do |f| %>
+                      <%= f.label :phone_type %>
+                      <%= f.text_field :phone_type %>
+
+                      <%= f.label :model %>
+                      <%= f.text_field :model %>
+
+                      <%= f.label :size %>
+                      <%= f.text_field :size %>
+
+                      <%= f.label :color %>
+                      <%= f.text_field :color %>
+
+                      <%= f.label :description %>
+                      <%= f.text_field :description %>
+
+                      <%= f.label :price %>
+                      <%= f.text_field :price %>
+
+                      <%= f.submit "Buy", class: "btn btn-primary" %>
+                   <% end %>
+                </div>
+              <% else %>
+                <p class="not-available"> iPhone 7 is not available at this moment </p>
+              <% end %>
+            </div>
+          </div>
+          <div id="iphone6" class="tab-pane fade">
+            <% if Iphone.where(phone_type: '6').exists? %>
+              <p> iPhone 6 is available </p>
+              <h3>iPhone 6</h3>
+              <p>Customize iPhone 6</p>
+            <% else %>
+                <p class="not-available"> iPhone 6 is not available at this moment </p>
+            <% end %>
+          </div>
+          <div id="iphonese" class="tab-pane fade">
+            <% if Iphone.where(phone_type: 'SE').exists? %>
+              <p> iPhone 6 is available </p>
+              <h3>iPhone 6</h3>
+              <p>Customize iPhone 6</p>
+            <% else %>
+              <p class="not-available"> iPhone SE is not available at this moment </p>
+            <% end %>
+          </div>
+      </div>
+    </div>
+  </div>  
+</div>
