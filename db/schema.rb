@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170303181123) do
+ActiveRecord::Schema.define(version: 20170306103440) do
 
   create_table "iphones", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "phone_type"
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 20170303181123) do
     t.decimal  "price",                     precision: 10
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
+    t.string   "watch_type"
   end
 
 end
