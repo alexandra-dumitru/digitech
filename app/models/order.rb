@@ -1,5 +1,5 @@
 class Order < ApplicationRecord
-	belongs_to :user
+	belongs_to :user, optional: true
 
 	def total_cost_iphone
 		item_cost = 0

@@ -1,5 +1,5 @@
-<%= form_for(order) do |f| %>
-  <% if order.errors.any? %>
+<%= form_for(@order) do |f| %>
+  <% if @order.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(order.errors.count, "error") %> prohibited this order from being saved:</h2>
 
@@ -12,13 +12,11 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :user_email %>
-    <%= f.text_field :user_email %>
+    <%= f.hidden_field :user_email, :value => current_user.email %>
   </div>
 
   <div class="field">
-    <%= f.label :product_type %>
-    <%= f.text_field :product_type %>
+    
   </div>
 
   <div class="field">
@@ -37,6 +35,6 @@
   </div>
 
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Place order", class: "btn btn-primary" %>
   </div>
 <% end %>

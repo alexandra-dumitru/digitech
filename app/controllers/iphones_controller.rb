@@ -5,6 +5,7 @@ class IphonesController < ApplicationController
   # GET /iphones.json
   def index
     @iphones = Iphone.all
+    @order = Order.new
   end
 
   # GET /iphones/1
