@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :orders
   get 'sessions/new'
 
   root 'static_pages#home'
@@ -8,13 +9,13 @@ Rails.application.routes.draw do
   get '/login',   to: 'sessions#new'
   post '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
-  post '/order_product', to: 'static_pages#order'
 
   resources :promocodes
   resources :users
   resources :watches
   resources :macs
   resources :iphones
+  resources :orders
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   
 end

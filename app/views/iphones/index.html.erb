@@ -17,40 +17,8 @@
                   <%= image_tag("iphone7-product.jpg", alt: "iPhone 7")%>
                   <p> iPhone 7 îmbunătățește dramatic cele mai importante aspecte ale experienței de utilizare iPhone. El introduce cele mai avansate noi camere. Cea mai bună performanță și autonomie a bateriei unui iPhone. Difuzoare stereo care-ți oferă o calitate a sunetului incredibilă. Cel mai luminos, și care redă cele mai multe culori ecran de iPhone. Rezistent la stropi și apă. </p>
                 </div>
-                <div class="col-xs-6 col-md-4 form-group">
-
-                  <%= form_tag do %>
-                    <%= label_tag(:dim, "Select size") %>
-                    <%= select_tag(:dim, options_for_select([["iPhone 7", 1], ["iPhone 7 Plus", 2]], 1)) %>
-                    <%= label_tag(:mod, "Select model") %>
-                    <%= select_tag(:mod, options_for_select([["32 GB", 1], ["128 GB", 2], ["256 GB", 3]], 1)) %>
-                    <%= label_tag(:color, "Select color") %>
-                    <%= select_tag(:color, options_for_select([["silver", 1], ["pink", 2], ["gold", 3], ["black", 4]], 1)) %>
-                  <% end %>
-
-                  <form>
-                    <div class="form-group">
-                      <label for="dim">Select size</label>
-                      <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
-                    </div>
-                    <div class="form-group">
-                      <label for="exampleInputPassword1">Password</label>
-                      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                    </div>
-                    <div class="form-group">
-                      <label for="exampleInputFile">File input</label>
-                      <input type="file" id="exampleInputFile">
-                      <p class="help-block">Example block-level help text here.</p>
-                    </div>
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox"> Check me out
-                      </label>
-                    </div>
-                    <button type="submit" class="btn btn-default">Submit</button>
-                  </form>
-
-
+                <div class="col-xs-6 col-md-4">
+                <%= link_to "Buy", order_path, class: "btn btn-lg btn-default" %>
                 </div>
               <% else %>
                 <p class="not-available"> iPhone 7 is not available at this moment </p>

@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User email:</strong>
+  <%= @order.user_email %>
+</p>
+
+<p>
+  <strong>Product type:</strong>
+  <%= @order.product_type %>
+</p>
+
+<p>
+  <strong>Amount:</strong>
+  <%= @order.amount %>
+</p>
+
+<p>
+  <strong>Promocode:</strong>
+  <%= @order.promocode %>
+</p>
+
+<p>
+  <strong>Gift card:</strong>
+  <%= @order.gift_card %>
+</p>
+
+<%= link_to 'Edit', edit_order_path(@order) %> |
+<%= link_to 'Back', orders_path %>
