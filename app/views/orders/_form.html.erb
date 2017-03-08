@@ -15,21 +15,33 @@
     <%= f.hidden_field :user_email, :value => current_user.email %>
   </div>
 
-  <div class="field">
-    
+  <div class="form-group">
+    <%= f.label(:product_type, "Select product type") %>
+    <%= f.radio_button(:product_type, "iPhone 7") %> 
+    <%= f.label(:product_type_iphone_7, "iPhone 7") %>
+    <%= f.radio_button(:product_type, "iPhone 7 Plus") %>
+    <%= f.label(:product_type_iphone_7_plus, "iPhone 7 Plus") %>
   </div>
 
-  <div class="field">
+  <div class="form-group">
+    <%  %>
     <%= f.label :amount %>
-    <%= f.text_field :amount %>
+    <%= f.hidden_field :amount, :class => "form-control" %>
   </div>
 
-  <div class="field">
+  <div class="form-group">
+    <%= f.label :product_color %>
+    <% @iphone = Iphone.all %>
+    <% options = options_from_collection_for_select(@iphone, 'id', 'color') %>
+    <%= f.select :all_val, options %>
+  </div>
+
+  <div class="form-group">
     <%= f.label :promocode %>
-    <%= f.text_field :promocode %>
+    <%= f.text_field :promocode, :class => "form-control" %>
   </div>
 
-  <div class="field">
+  <div class="form-group">
     <%= f.label :gift_card %>
     <%= f.check_box :gift_card %>
   </div>
