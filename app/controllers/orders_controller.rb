@@ -15,6 +15,7 @@ class OrdersController < ApplicationController
   # GET /orders/new
   def new
     @order = Order.new
+    @iphones = Iphone.all
   end
 
   # GET /orders/1/edit
@@ -25,11 +26,18 @@ class OrdersController < ApplicationController
   # POST /orders.json
   def create
     if logged_in?
-      @order = Order.new(order_params)
+      @order = Order.new
       @order.user_email = current_user.email
-      puts current_user.email
+      @order.product_type = params[:model]
+      @order.product_size = params[:size]
+      @order.product_color = params[:color]
+      @order.amount = 32000
+      @user = current_user
+      #UserMailer.notify(@user).deliver
+      
       respond_to do |format|
         if @order.save
+          flash.now[:success] = 'Your order was placed successfully !'
           format.html { redirect_to @order, notice: 'Order was successfully created.' }
           format.json { render :show, status: :created, location: @order }
         else
@@ -73,6 +81,6 @@ class OrdersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def order_params
-      params.require(:order).permit(:user_email, :product_type, :amount, :promocode, :gift_card)
+      params.require(:order).permit(:user_id, :user_email, :iphone_id, :mac_id, :watch_id, :product_type, :product_size, :product_color, :amount, :promocode, :gift_card)
     end
 end

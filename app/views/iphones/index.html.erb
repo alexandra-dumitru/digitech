@@ -16,10 +16,43 @@
                 <div class="col-xs-6 col-md-6">
                   <%= image_tag("iphone7-product.jpg", alt: "iPhone 7")%>
                   <p> iPhone 7 îmbunătățește dramatic cele mai importante aspecte ale experienței de utilizare iPhone. El introduce cele mai avansate noi camere. Cea mai bună performanță și autonomie a bateriei unui iPhone. Difuzoare stereo care-ți oferă o calitate a sunetului incredibilă. Cel mai luminos, și care redă cele mai multe culori ecran de iPhone. Rezistent la stropi și apă. </p>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>iPhone type</th>
+                        <th>Model</th>
+                        <th>Size</th>
+                        <th>Color</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th colspan="3"></th>
+                      </tr>
+                    </thead>
+                   
+                    <tbody>
+                      <% @iphones.each do |iphone| %>
+                        <tr>
+                          <% if iphone.phone_type == '7' %>
+                            <td><%= iphone.id %></td>
+                            <td><%= iphone.phone_type %></td>
+                            <td><%= iphone.model %></td>
+                            <td><%= iphone.size %></td>
+                            <td><%= iphone.color %></td>
+                            <td><%= iphone.description %></td>
+                            <td><%= iphone.price %></td>
+                            <td><%= link_to 'Show', iphone %></td>
+                            <td><%= link_to 'Edit', edit_iphone_path(iphone) %></td>
+                            <td><%= link_to 'Destroy', iphone, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                          <% end %>
+                        </tr>
+                      <% end %>
+                    </tbody>
+                   </table>
                 </div>
                 <div class="col-xs-6 col-md-4">
                   <% if logged_in? %>
-                    <%= render :partial => 'orders/form', :object => @order %>
+                    <%= render :partial => 'iphones/orderform', :object => @order %>
                   <% else %>
                     <p class="alert alert-danger"> You must log in first! </p>
                     <%= link_to "Place order", "#", :class => "btn btn-primary disabled" %>

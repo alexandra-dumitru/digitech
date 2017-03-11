@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170308110747) do
+ActiveRecord::Schema.define(version: 20170310115217) do
 
   create_table "iphones", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "phone_type"
@@ -42,6 +42,11 @@ ActiveRecord::Schema.define(version: 20170308110747) do
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.string   "product_color"
+    t.integer  "product_size"
+    t.integer  "iphone_id"
+    t.integer  "mac_id"
+    t.integer  "watch_id"
+    t.integer  "user_id"
   end
 
   create_table "promocodes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

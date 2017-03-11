@@ -1,0 +1,421 @@
+<script>
+function show(elementId) { 
+ document.getElementById("iphone7div").style.display="none";
+ document.getElementById("iphone7plusdiv").style.display="none";
+ document.getElementById("iphone7divcolor32").style.display="none";
+ document.getElementById("iphone7divcolorplus32").style.display="none";
+ document.getElementById("iphone7divcolor128").style.display="none";
+ document.getElementById("iphone7divcolorplus128").style.display="none";
+ document.getElementById("iphone7divcolor256").style.display="none";
+ document.getElementById("iphone7divcolorplus256").style.display="none";
+ document.getElementById(elementId).style.display="block";
+}
+
+function show_color(elementId) { 
+ document.getElementById("iphone7divcolor32").style.display="none";
+ document.getElementById("iphone7divcolorplus32").style.display="none";
+ document.getElementById("iphone7divcolor128").style.display="none";
+ document.getElementById("iphone7divcolorplus128").style.display="none";
+ document.getElementById("iphone7divcolor256").style.display="none";
+ document.getElementById("iphone7divcolorplus256").style.display="none";
+ document.getElementById(elementId).style.display="block";
+}
+
+jQuery("document").ready(function($) {
+
+  var userSelection = {
+    model: null,
+    size: null,
+    color: null
+  }
+
+  $('.buttons-section').on("click", "button", function (e) {
+
+    //userSelection.model = e.currentTarget.id;
+    var me = e.currentTarget;
+    var update = me.getAttribute("data-update");
+
+    switch (update) {
+      case "model":
+        userSelection.size = null;
+        userSelection.color = null;
+      break;
+      case "size":
+        userSelection.color = null;
+      break;
+    }
+
+    userSelection[update] = me.getAttribute("data-value");
+
+
+    console.log(userSelection)
+  });
+
+  $("#submit").on("click", function(e) {
+    $.ajax({
+      type: "POST",
+      url: "/orders",
+      dataType: "json",
+      data: userSelection
+    });
+  })
+})
+
+</script>
+
+<p>Select product</p>
+<div id="select_product" class="row buttons-section">
+  <div class="btn-group btn-group-lg" role="group" aria-label="Select model">
+    <% iphone = Iphone.where(phone_type: '7').where(model: 'normal').first %>
+    <% if !iphone.nil? %>
+      <button type="button" id="iphone7" class="btn btn-default" onclick="show('iphone7div')" data-update="model" data-value="iphone7">iPhone 7</button>
+    <% end %>
+
+    <% iphone_plus = Iphone.where(phone_type: '7').where(model: 'plus').first %>
+    <% if !iphone_plus.nil? %>
+      <button type="button" id="iphone7plus" class="btn btn-default" onclick="show('iphone7plusdiv')" data-update="model" data-value="iphone7plus">iPhone 7 Plus</button>
+    <% end %>
+  </div>
+</div>
+
+<p>Select size</p>
+<div id="iphone7div" class="row buttons-section" style="display:none">
+  <div class="btn-group btn-group-lg" role="group" aria-label="Select size">
+    <% check32 = false %>
+    <% check128 = false %>
+    <% check256 = false %>
+    <% Iphone.where(phone_type: '7').where(model: 'normal').each do |iphone| %>
+      <% if !iphone.nil? %>
+        <% if iphone.size == 32 %>
+          <% check32 = true %>
+        <% end %>
+        <% if iphone.size == 128 %>
+          <% check128 = true %>
+        <% end %>
+        <% if iphone.size == 256 %>
+          <% check256 = true %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <% if check32 == true %>
+      <button type="button" id="gb32" class="btn btn-default" onclick="show_color('iphone7divcolor32')" data-update="size" data-value="32GB">32 GB</button>
+    <% end %>
+
+    <% if check128 == true %>
+      <button type="button" id="gb128" class="btn btn-default" onclick="show_color('iphone7divcolor128')" data-update="size" data-value="128GB">128 GB</button>
+    <% end %>
+
+    <% if check256 == true %>
+      <button type="button" id="gb256" class="btn btn-default" onclick="show_color('iphone7divcolor256')" data-update="size" data-value="256GB">256 GB</button>
+    <% end %>
+  </div>
+</div>
+
+<div id="iphone7plusdiv" class="row buttons-section" style="display:none">
+  <div class="btn-group btn-group-lg" role="group" aria-label="Select size">
+    <% check32plus = false %>
+    <% check128plus = false %>
+    <% check256plus = false %>
+    <% Iphone.where(phone_type: '7').where(model: 'plus').each do |iphone| %>
+      <% if !iphone.nil? %>
+        <% if iphone.size == 32 %>
+          <% check32plus = true %>
+        <% end %>
+        <% if iphone.size == 128 %>
+          <% check128plus = true %>
+        <% end %>
+        <% if iphone.size == 256 %>
+          <% check256plus = true %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <% if check32plus == true %>
+      <button type="button" id="gb32plus" class="btn btn-default" onclick="show_color('iphone7divcolorplus32')" data-update="size" data-value="32GB">32 GB</button>
+    <% end %>
+
+    <% if check128plus == true %>
+      <button type="button" id="gb128plus" class="btn btn-default" onclick="show_color('iphone7divcolorplus128')" data-update="size" data-value="128GB">128 GB</button>
+    <% end %>
+
+    <% if check256plus == true %>
+      <button type="button" id="gb256plus" class="btn btn-default" onclick="show_color('iphone7divcolorplus256')" data-update="size" data-value="256GB">256 GB</button>
+    <% end %>
+  </div>
+</div>
+
+<p>Select color</p>
+<div id="iphone7divcolor32" class="row buttons-section" style="display:none">
+  <div class="btn-group btn-group-lg" role="group" aria-label="Select color">
+    <% isPink32 = false %>
+    <% isSilver32 = false %>
+    <% isGold32 = false %>
+    <% isBlack32 = false %>
+
+    <% Iphone.where(phone_type: '7').where(model: 'normal').where(size: 32).each do |iphone| %>
+      <% if !iphone.nil? %>
+        <% if iphone.color == 'pink' %>
+          <% isPink32 = true %>
+        <% end %>
+
+        <% if iphone.color == 'silver' %>
+          <% isSilver32 = true %>
+        <% end %>
+
+        <% if iphone.color == 'gold' %>
+          <% isGold32 = true %>
+        <% end %>
+
+        <% if iphone.color == 'black' %>
+          <% isBlack32 = true %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <% if isPink32 == true %>
+       <button type="button" class="color-spacing iphone-color-pink btn btn-default" data-update="color" data-value="pink"></button>
+    <% end %>
+
+    <% if isSilver32 == true %>
+       <button type="button" class="color-spacing iphone-color-silver btn btn-default" data-update="color" data-value="silver"></button>
+    <% end %>
+
+    <% if isGold32 == true %>
+       <button type="button" class="color-spacing iphone-color-gold btn btn-default" data-update="color" data-value="gold"></button>
+    <% end %>
+
+    <% if isBlack32 == true %>
+       <button type="button" class="color-spacing iphone-color-black btn btn-default" data-update="color" data-value="black"></button>
+    <% end %>
+  </div>
+</div>
+
+<div id="iphone7divcolor128" class="row buttons-section" style="display:none">
+  <div class="btn-group btn-group-lg" role="group" aria-label="Select color">
+    <% isPink128 = false %>
+    <% isSilver128 = false %>
+    <% isGold128 = false %>
+    <% isBlack128 = false %>
+
+    <% Iphone.where(phone_type: '7').where(model: 'normal').where(size: 128).each do |iphone| %>
+      <% if !iphone.nil? %>
+        <% if iphone.color == 'pink' %>
+          <% isPink128 = true %>
+        <% end %>
+
+        <% if iphone.color == 'silver' %>
+          <% isSilver128 = true %>
+        <% end %>
+
+        <% if iphone.color == 'gold' %>
+          <% isGold128 = true %>
+        <% end %>
+
+        <% if iphone.color == 'black' %>
+          <% isBlack128 = true %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <% if isPink128 == true %>
+       <button type="button" class="color-spacing iphone-color-pink btn btn-default" data-update="color" data-value="pink"></button>
+    <% end %>
+
+    <% if isSilver128 == true %>
+       <button type="button" class="color-spacing iphone-color-silver btn btn-default" data-update="color" data-value="silver"></button>
+    <% end %>
+
+    <% if isGold128 == true %>
+       <button type="button" class="color-spacing iphone-color-gold btn btn-default" data-update="color" data-value="gold"></button>
+    <% end %>
+
+    <% if isBlack128 == true %>
+       <button type="button" class="color-spacing iphone-color-black btn btn-default" data-update="color" data-value="black"></button>
+    <% end %>
+  </div>
+</div>
+
+<div id="iphone7divcolor256" class="row buttons-section" style="display:none">
+  <div class="btn-group btn-group-lg" role="group" aria-label="Select color">
+    <% isPink256 = false %>
+    <% isSilver256 = false %>
+    <% isGold256 = false %>
+    <% isBlack256 = false %>
+
+    <% Iphone.where(phone_type: '7').where(model: 'normal').where(size: 256).each do |iphone| %>
+      <% if !iphone.nil? %>
+        <% if iphone.color == 'pink' %>
+          <% isPink256 = true %>
+        <% end %>
+
+        <% if iphone.color == 'silver' %>
+          <% isSilver256 = true %>
+        <% end %>
+
+        <% if iphone.color == 'gold' %>
+          <% isGold256 = true %>
+        <% end %>
+
+        <% if iphone.color == 'black' %>
+          <% isBlack256 = true %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <% if isPink256 == true %>
+       <button type="button" class="color-spacing iphone-color-pink btn btn-default" data-update="color" data-value="pink"></button>
+    <% end %>
+
+    <% if isSilver256 == true %>
+       <button type="button" class="color-spacing iphone-color-silver btn btn-default" data-update="color" data-value="silver"></button>
+    <% end %>
+
+    <% if isGold256 == true %>
+       <button type="button" class="color-spacing iphone-color-gold btn btn-default" data-update="color" data-value="gold"></button>
+    <% end %>
+
+    <% if isBlack256 == true %>
+       <button type="button" class="color-spacing iphone-color-black btn btn-default" data-update="color" data-value="black"></button>
+    <% end %>
+  </div>
+</div>
+
+<div id="iphone7divcolorplus32" class="row buttons-section" style="display:none">
+  <div class="btn-group btn-group-lg" role="group" aria-label="Select color">
+    <% isPink32plus = false %>
+    <% isSilver32plus = false %>
+    <% isGold32plus = false %>
+    <% isBlack32plus = false %>
+
+    <% Iphone.where(phone_type: '7').where(model: 'plus').where(size: 32).each do |iphone| %>
+      <% if !iphone.nil? %>
+        <% if iphone.color == 'pink' %>
+          <% isPink32plus = true %>
+        <% end %>
+
+        <% if iphone.color == 'silver' %>
+          <% isSilver32plus = true %>
+        <% end %>
+
+        <% if iphone.color == 'gold' %>
+          <% isGold32plus = true %>
+        <% end %>
+
+        <% if iphone.color == 'black' %>
+          <% isBlack32plus = true %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <% if isPink32plus %>
+       <button type="button" class="color-spacing iphone-color-pink btn btn-default" data-update="color" data-value="pink"></button>
+    <% end %>
+
+    <% if isSilver32plus %>
+       <button type="button" class="color-spacing iphone-color-silver btn btn-default" data-update="color" data-value="silver"></button>
+    <% end %>
+
+    <% if isGold32plus %>
+       <button type="button" class="color-spacing iphone-color-gold btn btn-default" data-update="color" data-value="gold"></button>
+    <% end %>
+
+    <% if isBlack32plus %>
+       <button type="button" class="color-spacing iphone-color-black btn btn-default" data-update="color" data-value="black"></button>
+    <% end %>
+  </div>
+</div>
+
+<div id="iphone7divcolorplus128" class="row buttons-section" style="display:none">
+  <div class="btn-group btn-group-lg" role="group" aria-label="Select color">
+    <% isPink128plus = false %>
+    <% isSilver128plus = false %>
+    <% isGold128plus = false %>
+    <% isBlack128plus = false %>
+
+    <% Iphone.where(phone_type: '7').where(model: 'plus').where(size: 128).each do |iphone| %>
+      <% if !iphone.nil? %>
+        <% if iphone.color == 'pink' %>
+            <% isPink128plus = true %>
+        <% end %>
+
+        <% if iphone.color == 'silver' %>
+          <% isSilver128plus = true %>
+        <% end %>
+
+        <% if iphone.color == 'gold' %>
+          <% isGold128plus = true %>
+        <% end %>
+
+        <% if iphone.color == 'black' %>
+          <% isBlack128plus = true %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <% if isPink128plus %>
+       <button type="button" class="color-spacing iphone-color-pink btn btn-default" data-update="color" data-value="pink"></button>
+    <% end %>
+
+    <% if isSilver128plus %>
+       <button type="button" class="color-spacing iphone-color-silver btn btn-default" data-update="color" data-value="silver"></button>
+    <% end %>
+
+    <% if isGold128plus %>
+       <button type="button" class="color-spacing iphone-color-gold btn btn-default" data-update="color" data-value="gold"></button>
+    <% end %>
+
+    <% if isBlack128plus %>
+       <button type="button" class="color-spacing iphone-color-black btn btn-default" data-update="color" data-value="black"></button>
+    <% end %>
+  </div>
+</div>
+
+<div id="iphone7divcolorplus256" class="row buttons-section" style="display:none">
+  <div class="btn-group btn-group-lg" role="group" aria-label="Select color">
+    <% isPink256plus = false %>
+    <% isSilver256plus = false %>
+    <% isGold256plus = false %>
+    <% isBlack256plus = false %>
+
+    <% Iphone.where(phone_type: '7').where(model: 'plus').where(size: 256).each do |iphone| %>
+      <% if !iphone.nil? %>
+        <% if iphone.color == 'pink' %>
+          <% isPink256plus = true %>
+        <% end %>
+
+        <% if iphone.color == 'silver' %>
+          <% isSilver256plus = true %>
+        <% end %>
+
+        <% if iphone.color == 'gold' %>
+          <% isGold256plus = true %>
+        <% end %>
+
+        <% if iphone.color == 'black' %>
+          <% isBlack256plus = true %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <% if isPink256plus %>
+       <button type="button" class="color-spacing iphone-color-pink btn btn-default" data-update="color" data-value="pink"></button>
+    <% end %>
+
+    <% if isSilver256plus %>
+       <button type="button" class="color-spacing iphone-color-silver btn btn-default" data-update="color" data-value="silver"></button>
+    <% end %>
+
+    <% if isGold256plus %>
+       <button type="button" class="color-spacing iphone-color-gold btn btn-default" data-update="color" data-value="gold"></button>
+    <% end %>
+
+    <% if isBlack256plus %>
+       <button type="button" class="color-spacing iphone-color-black btn btn-default" data-update="color" data-value="black"></button>
+    <% end %>
+  </div>
+</div>
+
+<div class="row">
+  <button id="submit" type="button" class="btn btn-primary btn-lg active">Place order</button>
+</div>
