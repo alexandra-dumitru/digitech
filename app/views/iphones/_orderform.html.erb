@@ -47,17 +47,28 @@ jQuery("document").ready(function($) {
 
     userSelection[update] = me.getAttribute("data-value");
 
-
     console.log(userSelection)
   });
 
   $("#submit").on("click", function(e) {
-    $.ajax({
-      type: "POST",
-      url: "/orders",
-      dataType: "json",
-      data: userSelection
-    });
+    if(userSelection.model != null && userSelection.size != null && userSelection.color != null) {
+      $.ajax({
+        type: "POST",
+        url: "/orders",
+        dataType: "json",
+        data: userSelection,
+        success: function(){
+          $("#success_modal").modal("toggle");
+          $("#success_modal").on('hidden.bs.modal', function() {
+            window.location.replace("/iphones");
+          });
+
+        }
+      });
+    }
+    else {
+      $("#error_modal").modal("toggle");
+    }
   })
 })
 
@@ -418,4 +429,27 @@ jQuery("document").ready(function($) {
 
 <div class="row">
   <button id="submit" type="button" class="btn btn-primary btn-lg active">Place order</button>
+</div>
+
+<div class="modal fade" id="success_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+              Thank you for your order !
+            </div>
+            <div class="modal-body bg-success">
+              An email was sent to your inbox to finalize the process.
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="error_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+              You must select all items: model, size and color !
+            </div>
+        </div>
+    </div>
 </div>

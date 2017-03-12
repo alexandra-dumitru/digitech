@@ -32,12 +32,10 @@ class OrdersController < ApplicationController
       @order.product_size = params[:size]
       @order.product_color = params[:color]
       @order.amount = 32000
-      @user = current_user
-      #UserMailer.notify(@user).deliver
+      UserMailer.notify(current_user).deliver
       
       respond_to do |format|
         if @order.save
-          flash.now[:success] = 'Your order was placed successfully !'
           format.html { redirect_to @order, notice: 'Order was successfully created.' }
           format.json { render :show, status: :created, location: @order }
         else

@@ -33,6 +33,17 @@ Rails.application.configure do
   # The :test delivery method accumulates sent emails in the
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
+  config.action_mailer.delivery_method = :smtp 
+  config.action_mailer.smtp_settings = {   
+    address: 'server183.web-hosting.com',   
+    port: 465,   
+    domain: 'server183.web-hosting.com',   
+    user_name: 'office@digitech-app.com',   
+    password:  'luigi@digitech123',   
+    authentication: 'plain',   
+    enable_starttls_auto: true  
+  }
+
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
