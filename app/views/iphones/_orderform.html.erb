@@ -53,8 +53,9 @@ jQuery("document").ready(function($) {
       $.ajax({
         type: "GET",
         url: "/iphones",
+        dataType: "json",
         success: function(data){
-          $("#priceid").text(data);
+          $("#priceid").text(data[0].model);
         }
       });
     }
