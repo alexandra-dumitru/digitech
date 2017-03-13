@@ -31,8 +31,10 @@ class OrdersController < ApplicationController
       @order.product_type = params[:model]
       @order.product_size = params[:size]
       @order.product_color = params[:color]
-      @order.amount = 32000
-      UserMailer.notify(current_user).deliver
+      product_models = @order.product_type.split("-")
+      current_iphone = Iphone.where(phone_type: product_models[1]).where(model: product_models[2]).where(size: @order.product_size).where(color: @order.product_color).first
+      @order.amount = current_iphone.price
+      UserMailer.notify(current_user, @order).deliver
       
       respond_to do |format|
         if @order.save
@@ -69,6 +71,13 @@ class OrdersController < ApplicationController
       format.html { redirect_to orders_url, notice: 'Order was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def current_price
+     #product_models = params[:model].split("-")
+     #current_configuration= Iphone.where(phone_type: product_models[1]).where(model: product_models[2]).where(size: params[:size]).where(color: params[:color]).first
+     #return current_configuration.price
+     return params[:model]
   end
 
   private

@@ -1,8 +1,9 @@
 class UserMailer < ApplicationMailer
-	default from: 'dumitrualexandra91@gmail.com'
+	default from: 'office@digitech-app.com'
 	
-	def notify(user)
+	def notify(user, order)
 		@user = user
-		mail(to: @user.email, subject: "Notification")
+		@order = order
+		mail(to: @user.email, subject: "Thank you for your order")
 	end
 end

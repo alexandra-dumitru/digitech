@@ -4,10 +4,14 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1>Welcome to example.com, <%= @user.name %></h1>
+    <h3>Dear <%= @user.name %></h3>
     <p>
-      You have received a notification
+      Thank you for your purchase of the following product:
     </p>
-    <p>Thanks for joining and have a great day!</p>
+    <p>Product type: <%= @order.product_type %></p>
+    <p>Product size: <%= @order.product_size %> GB</p>
+    <p>Product color: <%= @order.product_color %></p>
+    <p>Price: <%= @order.amount %></p>
+    <p></p>
   </body>
 </html>

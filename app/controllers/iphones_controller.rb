@@ -65,14 +65,6 @@ class IphonesController < ApplicationController
     end
   end
 
-  def order_iphone
-    @iphone7 = Iphone.where(phone_type: '7')
-    respond_to do |format|
-      format.html
-      format.json { render json: @iphone7}
-    end
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_iphone

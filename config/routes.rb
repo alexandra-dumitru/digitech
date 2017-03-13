@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   delete '/logout',  to: 'sessions#destroy'
   get '/order',   to: 'iphones#order_iphone'
   post '/order',   to: 'iphones#order_iphone'
+  get '/order-price', to: 'orders#current_price'
 
   resources :promocodes
   resources :users
