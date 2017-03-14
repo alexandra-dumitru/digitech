@@ -28,12 +28,21 @@ class OrdersController < ApplicationController
     if logged_in?
       @order = Order.new
       @order.user_email = current_user.email
-      @order.product_type = params[:model]
       @order.product_size = params[:size]
       @order.product_color = params[:color]
-      product_models = @order.product_type.split("-")
-      current_iphone = Iphone.where(phone_type: product_models[1]).where(model: product_models[2]).where(size: @order.product_size).where(color: @order.product_color).first
-      @order.amount = current_iphone.price
+      @current_iphone = nil
+      if params[:model].nil?
+        @order.product_type = 'SE'
+        @current_iphone = Iphone.where(phone_type: 'SE').where(size: params[:size]).where(color: params[:color]).first
+      else
+        @order.product_type = params[:model]
+        product_models = @order.product_type.split("-")
+        @current_iphone = Iphone.where(phone_type: product_models[1]).where(model: product_models[2]).where(size: @order.product_size).where(color: @order.product_color).first
+      end
+      
+     
+      
+      @order.amount = @current_iphone.price
       UserMailer.notify(current_user, @order).deliver
       
       respond_to do |format|

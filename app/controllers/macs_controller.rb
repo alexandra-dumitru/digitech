@@ -72,6 +72,6 @@ class MacsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def mac_params
-      params.require(:mac).permit(:type, :size, :color, :description, :price)
+      params.require(:mac).permit(:mac_type, :size, :color, :description, :price)
     end
 end

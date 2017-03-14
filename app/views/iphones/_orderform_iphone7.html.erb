@@ -63,7 +63,7 @@ jQuery("document").ready(function($) {
     console.log(userSelection)
   });
 
-  $("#submit").on("click", function(e) {
+  $("#submit7").on("click", function(e) {
     if(userSelection.model != null && userSelection.size != null && userSelection.color != null) {
       $.ajax({
         type: "POST",
@@ -445,7 +445,7 @@ jQuery("document").ready(function($) {
 </div>
 
 <div class="row">
-  <button id="submit" type="button" class="btn btn-primary btn-lg active">Place order</button>
+  <button id="submit7" type="button" class="btn btn-primary btn-lg active">Place order</button>
 </div>
 
 <div class="modal fade" id="success_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

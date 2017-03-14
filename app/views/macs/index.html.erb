@@ -17,7 +17,7 @@
   <tbody>
     <% @macs.each do |mac| %>
       <tr>
-        <td><%= mac.type %></td>
+        <td><%= mac.mac_type %></td>
         <td><%= mac.size %></td>
         <td><%= mac.color %></td>
         <td><%= mac.description %></td>
@@ -33,3 +33,24 @@
 <br>
 
 <%= link_to 'New Mac', new_mac_path %>
+
+<% provide(:title, "Mac Products") %>
+
+<div class="center jumbotron products-body" style="background-color: #cccccc">
+  <div class="row">
+    
+      <% @macs.each do |mac| %>
+        <div class="col-md-4">
+          <div class="thumbnail">
+            <%= link_to mac do %>
+              <%= image_tag("macbook_default.jpg", alt: "Macbook default")%>
+              <div class="caption">
+                <%= mac.mac_type + " " + mac.size.to_s + " " + mac.color + " " + mac.description %>
+              </div>
+            <% end %>
+          </div>
+          </div>
+      <% end %>  
+    
+  </div>
+</div>

@@ -23,19 +23,23 @@
 
 	  <div class="col-sm-6 col-md-4">
 	    <div class="thumbnail thumbnail-border-mac">
-	      <%= image_tag("macbook.jpg", alt: "Macbook")%>
-	      <div class="caption">
-	        <h3>Mac</h3>
-	      </div>
+	    	<%= link_to macs_path do %>
+	    	  <%= image_tag("macbook.jpg", alt: "Macbook")%>
+		      <div class="caption">
+		        <h3>Mac</h3>
+		      </div>
+	    	<% end %>
 	    </div>
 	  </div>
 
 	  <div class="col-sm-6 col-md-4">
 	    <div class="thumbnail thumbnail-border-watch">
-	      <%= image_tag("watch2.jpg", alt: "Watch")%>
-	      <div class="caption">
-	        <h3>Watch</h3>
-	      </div>
+	    	<%= link_to watches_path do %>
+	    	  <%= image_tag("watch2.jpg", alt: "Watch")%>
+		      <div class="caption">
+		        <h3>Watch</h3>
+		      </div>
+	    	<% end %>
 	    </div>
 	  </div>
   </div>
