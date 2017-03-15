@@ -13,24 +13,26 @@ jQuery("document").ready(function($) {
     price: null
   }
 
-  $('.buttons-section').on("click", "button", function (e) {
+  $('.buttons-sectionSE').on("click", "button", function (e) {
 
     //userSelection.model = e.currentTarget.id;
     var me = e.currentTarget;
-    var update = me.getAttribute("data-update");
+    var update = me.getAttribute("data-updateSE");
     if(update == "size"){
       userSelectionSE.color = null;
     }
 
-    userSelectionSE[update] = me.getAttribute("data-value");
-    //var order_price = $("#priceid")[0].getAttribute("data-value");
+    userSelectionSE[update] = me.getAttribute("data-valueSE");
+    //var order_price = $("#priceid")[0].getAttribute("data-valueSE");
     //$("#priceid").text(order_price);
     if(userSelectionSE["size"] != null && userSelectionSE["color"] != null){
+      $('#loading-image-iphone-SE').show();
       $.ajax({
         type: "GET",
         url: "/iphones",
         dataType: "json",
         success: function(data){
+          $('#loading-image-iphone-SE').hide();
          // $("#priceidSE").text(data[0].model);
         }
       });
@@ -63,7 +65,7 @@ jQuery("document").ready(function($) {
 </script>
 
 <p>Select size</p>
-<div id="iphoneSEdiv" class="row buttons-section">
+<div id="iphoneSEdiv" class="row buttons-sectionSE">
   <div class="btn-group btn-group-lg" role="group" aria-label="Select size">
     <% check16 = false %>
     <% check64 = false %>
@@ -79,17 +81,17 @@ jQuery("document").ready(function($) {
     <% end %>
 
     <% if check16 == true %>
-      <button type="button" class="btn btn-default" onclick="show_iphone_SE_color('iphoneSEdivcolor16')" data-update="size" data-value="16GB">16 GB</button>
+      <button type="button" class="btn btn-default" onclick="show_iphone_SE_color('iphoneSEdivcolor16')" data-updateSE="size" data-valueSE="16GB">16 GB</button>
     <% end %>
 
     <% if check64 == true %>
-      <button type="button" class="btn btn-default" onclick="show_iphone_SE_color('iphoneSEdivcolor64')" data-update="size" data-value="64GB">64 GB</button>
+      <button type="button" class="btn btn-default" onclick="show_iphone_SE_color('iphoneSEdivcolor64')" data-updateSE="size" data-valueSE="64GB">64 GB</button>
     <% end %>
   </div>
 </div>
 
 <p>Select color</p>
-<div id="iphoneSEdivcolor16" class="row buttons-section" style="display:none">
+<div id="iphoneSEdivcolor16" class="row buttons-sectionSE" style="display:none">
   <div class="btn-group btn-group-lg" role="group" aria-label="Select color">
     <% isPink16 = false %>
     <% isSilver16 = false %>
@@ -117,24 +119,24 @@ jQuery("document").ready(function($) {
     <% end %>
 
     <% if isPink16 == true %>
-       <button type="button" class="color-spacing iphone-color-pink btn btn-default" data-update="color" data-value="pink"></button>
+       <button type="button" class="color-spacing iphone-color-pink btn btn-default" data-updateSE="color" data-valueSE="pink"></button>
     <% end %>
 
     <% if isSilver16 == true %>
-       <button type="button" class="color-spacing iphone-color-silver btn btn-default" data-update="color" data-value="silver"></button>
+       <button type="button" class="color-spacing iphone-color-silver btn btn-default" data-updateSE="color" data-valueSE="silver"></button>
     <% end %>
 
     <% if isGold16 == true %>
-       <button type="button" class="color-spacing iphone-color-gold btn btn-default" data-update="color" data-value="gold"></button>
+       <button type="button" class="color-spacing iphone-color-gold btn btn-default" data-updateSE="color" data-valueSE="gold"></button>
     <% end %>
 
     <% if isBlack16 == true %>
-       <button type="button" class="color-spacing iphone-color-black btn btn-default" data-update="color" data-value="black"></button>
+       <button type="button" class="color-spacing iphone-color-black btn btn-default" data-updateSE="color" data-valueSE="black"></button>
     <% end %>
   </div>
 </div>
 
-<div id="iphoneSEdivcolor64" class="row buttons-section" style="display:none">
+<div id="iphoneSEdivcolor64" class="row buttons-sectionSE" style="display:none">
   <div class="btn-group btn-group-lg" role="group" aria-label="Select color">
     <% isPink64 = false %>
     <% isSilver64 = false %>
@@ -162,25 +164,28 @@ jQuery("document").ready(function($) {
     <% end %>
 
     <% if isPink64 == true %>
-       <button type="button" class="color-spacing iphone-color-pink btn btn-default" data-update="color" data-value="pink"></button>
+       <button type="button" class="color-spacing iphone-color-pink btn btn-default" data-updateSE="color" data-valueSE="pink"></button>
     <% end %>
 
     <% if isSilver64 == true %>
-       <button type="button" class="color-spacing iphone-color-silver btn btn-default" data-update="color" data-value="silver"></button>
+       <button type="button" class="color-spacing iphone-color-silver btn btn-default" data-updateSE="color" data-valueSE="silver"></button>
     <% end %>
 
     <% if isGold64 == true %>
-       <button type="button" class="color-spacing iphone-color-gold btn btn-default" data-update="color" data-value="gold"></button>
+       <button type="button" class="color-spacing iphone-color-gold btn btn-default" data-updateSE="color" data-valueSE="gold"></button>
     <% end %>
 
     <% if isBlack64 == true %>
-       <button type="button" class="color-spacing iphone-color-black btn btn-default" data-update="color" data-value="black"></button>
+       <button type="button" class="color-spacing iphone-color-black btn btn-default" data-updateSE="color" data-valueSE="black"></button>
     <% end %>
   </div>
 </div>
 
 <div class="row">
-  <p id="priceidSE" data-update="price" data-value="<%= @price %>">Test price</p>
+  <div id='loading-image-iphone-SE' style='display:none'>
+    <%= image_tag("loading.gif", alt: "Loading", size: "40x40")%>
+  </div>
+  <p id="priceidSE" data-updateSE="price" data-valueSE="<%= @price %>">Test price</p>
 </div>
 
 <div class="row">
