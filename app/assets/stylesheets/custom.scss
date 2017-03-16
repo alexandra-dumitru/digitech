@@ -281,8 +281,14 @@ $gray-medium-light: #eaeaea;
 .price-area {
   color:#ff0000;
   text-shadow: 0 1px 2px rgba(0,0,0,.2);
-  font-size:1.2em;
+  font-size:20px;
   }
+
+.price-area-mac {
+  color:#ff0000;
+  text-shadow: 0 1px 2px rgba(0,0,0,.2);
+  font-size:40px;
+}
 
 .checkmark-positive {
   color: #00e600;

@@ -1,0 +1,74 @@
+<script>
+jQuery("document").ready(function($){
+	var current_promocode = null;
+
+	$("#promocode-input-mac").change(function(){
+    var userInput = $(this).val();
+    var price = $("#price_mac_id").val();
+    $.ajax({
+      type: "GET",
+      url: "/promocodes",
+      dataType: "json",
+      beforeSend: function() {
+        $('#loading-image-promocode-mac').show();
+        $("#checkmark-positive-mac").hide();
+        $("#checkmark-negative-mac").hide();
+      },
+      success: function(data){
+        var check = false;
+         data.filter(function(key){
+            if(key.promovalue == userInput){
+              check = true;
+              var discount = price - 10;
+              $("#price_mac_id").text("New price: $" + discount);
+              $('#loading-image-promocode-mac').hide();
+              $("#checkmark-positive-mac").show();
+              $("#checkmark-negative-mac").hide();
+            }
+         });
+         if(check == false) {
+          $('#loading-image-promocode-mac').hide();
+          $("#checkmark-positive-mac").hide();
+          $("#checkmark-negative-mac").show();
+         }
+      }
+    });
+  });
+
+	$("#submitMac").on("click", function(e) {
+    	$.ajax({
+        type: "POST",
+        url: "/orders",
+        dataType: "json",
+        data: userSelectionSE,
+        success: function(){
+          $("#success_modal_SE").modal("toggle");
+          $("#success_modal_SE").on('hidden.bs.modal', function() {
+            window.location.replace("/iphones");
+          });
+        }
+      });
+  	});
+})
+	
+
+</script>
+
+<div class="row">
+	<div id="price_mac_id" class="price-area-mac"><%= @mac.price %></div>
+</div>
+<br>
+<div class="row">
+  <div id="promocode-mac" style="display:inline">
+    <input type="text" id="promocode-input-mac" class="form-control" placeholder="Promocode">
+    <div id="loading-image-promocode-mac" style='display:none'>
+      <%= image_tag("loading.gif", alt: "Loading", size: "20x20")%>
+    </div>
+    <span id="checkmark-positive-mac"" class="checkmark-positive" style="display:none">&#10004;</span>
+    <span id="checkmark-negative-mac" class="checkmark-negative" title="Promocode is not valid!" style="display:none">x</span>
+  </div>
+</div>
+<br>
+<div class="row">
+  <button id="submitMac" type="button" class="btn btn-primary btn-lg active">Place order</button>
+</div>

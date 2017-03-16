@@ -88,8 +88,8 @@ jQuery("document").ready(function($) {
       dataType: "json",
       beforeSend: function() {
         $('#loading-image-promocode-7').show();
-        $(".checkmark-positive").hide();
-        $(".checkmark-negative").hide();
+        $("#checkmark-positive-7").hide();
+        $("#checkmark-negative-7").hide();
       },
       success: function(data){
         var check = false;
@@ -98,8 +98,8 @@ jQuery("document").ready(function($) {
               check = true;
               userSelection["promocode"] = key.promovalue;
               $('#loading-image-promocode-7').hide();
-              $(".checkmark-positive").show();
-              $(".checkmark-negative").hide();
+              $("#checkmark-positive-7").show();
+              $("#checkmark-negative-7").hide();
               if(userSelection["price"] != null){
                 var discount = userSelection["price"] - userSelection["price"] * (key.promotype * 0.01);
                 userSelection["price"] = discount;
@@ -112,8 +112,8 @@ jQuery("document").ready(function($) {
          });
          if(check == false) {
           $('#loading-image-promocode-7').hide();
-          $(".checkmark-positive").hide();
-          $(".checkmark-negative").show();
+          $("#checkmark-positive-7").hide();
+          $("#checkmark-negative-7").show();
          }
       }
     });
@@ -524,8 +524,8 @@ jQuery("document").ready(function($) {
       <div id="loading-image-promocode-7" style='display:none'>
         <%= image_tag("loading.gif", alt: "Loading", size: "20x20")%>
       </div>
-      <span class="checkmark-positive" style="display:none">&#10004;</span>
-      <span class="checkmark-negative" title="Promocode is not valid!" style="display:none">x</span>
+      <span id="checkmark-positive-7" class="checkmark-positive" style="display:none">&#10004;</span>
+      <span id="checkmark-negative-7" class="checkmark-negative" title="Promocode is not valid!" style="display:none">x</span>
     </div>
   </div>
   <br>
