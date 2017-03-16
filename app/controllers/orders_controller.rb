@@ -30,6 +30,9 @@ class OrdersController < ApplicationController
       @order.user_email = current_user.email
       @order.product_size = params[:size]
       @order.product_color = params[:color]
+      if(!params[:promocode].nil?)
+        @order.promocode = params[:promocode]
+      end
       @current_iphone = nil
       if params[:model].nil?
         @order.product_type = 'SE'
@@ -39,10 +42,13 @@ class OrdersController < ApplicationController
         product_models = @order.product_type.split("-")
         @current_iphone = Iphone.where(phone_type: product_models[1]).where(model: product_models[2]).where(size: @order.product_size).where(color: @order.product_color).first
       end
-      
-     
-      
+
       @order.amount = @current_iphone.price
+      if(!@order.promocode.nil?)
+        current_promocode = Promocode.where(promovalue: params[:promocode]).first
+        discount = @order.amount - @order.amount * current_promocode.promotype * 0.01
+        @order.amount = discount
+      end
       UserMailer.notify(current_user, @order).deliver
       
       respond_to do |format|

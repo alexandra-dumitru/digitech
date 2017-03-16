@@ -71,7 +71,6 @@ jQuery("document").ready(function($) {
                 }
               }
             }
-
           });
           $("#priceid").text("$" + userSelection["price"]).show();          
         }
@@ -81,26 +80,47 @@ jQuery("document").ready(function($) {
     console.log(userSelection)
   });
 
-  $("#submit7").on("click", function(e) {
-    var promocodeInput = $('#promocode-input-iphone-7').val();
-    if(promocodeInput != null) {
-      userSelection[promocode] = promocodeInput;
-    }
-
-    if(userSelection.model != null && userSelection.size != null && userSelection.color != null) {
-      if(userSelection[promocode] != null){
-        $.ajax({
-          type: "GET",
-          url: "/promocodes",
-          dataType: "json",
-          success: function(result){
-            result.filter(function(key){
-
-            });
-          }
-        });
+  $("#promocode-input-iphone-7").change(function(){
+    var userInput = $(this).val();
+    $.ajax({
+      type: "GET",
+      url: "/promocodes",
+      dataType: "json",
+      beforeSend: function() {
+        $('#loading-image-promocode-7').show();
+        $(".checkmark-positive").hide();
+        $(".checkmark-negative").hide();
+      },
+      success: function(data){
+        var check = false;
+         data.filter(function(key){
+            if(key.promovalue == userInput){
+              check = true;
+              userSelection["promocode"] = key.promovalue;
+              $('#loading-image-promocode-7').hide();
+              $(".checkmark-positive").show();
+              $(".checkmark-negative").hide();
+              if(userSelection["price"] != null){
+                var discount = userSelection["price"] - userSelection["price"] * (key.promotype * 0.01);
+                userSelection["price"] = discount;
+                $("#priceid").text("New price: $" + discount);
+              }
+              else {
+                $("#error_modal_promocode").modal("toggle");
+              }
+            }
+         });
+         if(check == false) {
+          $('#loading-image-promocode-7').hide();
+          $(".checkmark-positive").hide();
+          $(".checkmark-negative").show();
+         }
       }
-      
+    });
+  });
+
+  $("#submit7").on("click", function(e) {
+    if(userSelection.model != null && userSelection.size != null && userSelection.color != null) {      
       $.ajax({
         type: "POST",
         url: "/orders",
@@ -117,16 +137,16 @@ jQuery("document").ready(function($) {
     else {
       $("#error_modal").modal("toggle");
     }
-  })
-})
-
+  });
+});
 </script>
-<div class="form-group">
+
+<!-- SELECT PRODUCT IPHONE 7 -->
+
   <div class="lead">
     Select product
   </div>
-
-  <div id="select_product" class="row buttons-section">
+  <div class="row buttons-section">
     <div class="btn-group btn-group-lg" role="group" aria-label="Select model">
       <% iphone = Iphone.where(phone_type: '7').where(model: 'normal').first %>
       <% if !iphone.nil? %>
@@ -140,6 +160,9 @@ jQuery("document").ready(function($) {
     </div>
   </div>
   <br>
+
+  <!-- SELECT SIZE IPHONE 7 -->
+
   <div class="lead">
     Select size
   </div>
@@ -209,6 +232,9 @@ jQuery("document").ready(function($) {
     </div>
   </div>
   <br>
+
+  <!-- SELECT COLOR IPHONE 7 -->
+
   <div class="lead">
     Select color
   </div>
@@ -482,6 +508,9 @@ jQuery("document").ready(function($) {
     </div>
   </div>
   <br>
+
+  <!-- CUSTOM ELEMENTS: LOADING IMAGE, CHECKMARKS, MODALS -->
+
   <div class="row">
     <div id='loading-image-iphone-7' style='display:none'>
       <%= image_tag("loading.gif", alt: "Loading", size: "40x40")%>
@@ -492,23 +521,28 @@ jQuery("document").ready(function($) {
   <div class="row">
     <div id="promocode-iphone-7" style="display:inline">
       <input type="text" class="form-control" id="promocode-input-iphone-7" placeholder="Promocode">
-      <span class="checkmark">&#10004;</span>
+      <div id="loading-image-promocode-7" style='display:none'>
+        <%= image_tag("loading.gif", alt: "Loading", size: "20x20")%>
+      </div>
+      <span class="checkmark-positive" style="display:none">&#10004;</span>
+      <span class="checkmark-negative" title="Promocode is not valid!" style="display:none">x</span>
     </div>
   </div>
   <br>
   <div class="row">
     <button id="submit7" type="button" class="btn btn-primary btn-lg active">Place order</button>
   </div>
-</div>
+
+<!-- MODALS -->
 
 <div class="modal fade" id="success_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-success">
-              Thank you for your order !
+              <p>Thank you for your order !</p>
             </div>
             <div class="modal-body bg-success">
-              An email was sent to your inbox to finalize the process.
+              <p>An email was sent to your inbox to finalize the process.</p>
             </div>
         </div>
     </div>
@@ -518,7 +552,17 @@ jQuery("document").ready(function($) {
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-danger">
-              You must select all items: model, size and color !
+              <p>You must select all items: model, size and color !</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="error_modal_promocode" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+              <p>The discount is calculated based on a price. Please select a product first in order to generate the discount !</p>
             </div>
         </div>
     </div>

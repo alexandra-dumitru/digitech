@@ -27,7 +27,8 @@ jQuery("document").ready(function($) {
     model: null,
     size: null,
     color: null,
-    price: null
+    price: null,
+    promocode: null
   }
 
   $('.buttons-section6').on("click", "button", function (e) {
@@ -38,31 +39,84 @@ jQuery("document").ready(function($) {
 
     switch (update) {
       case "model":
+        $("#priceid6").hide();
         userSelection6.size = null;
         userSelection6.color = null;
       break;
       case "size":
+        $("#priceid6").hide();
         userSelection6.color = null;
       break;
     }
 
     userSelection6[update] = me.getAttribute("data-value6");
-    //var order_price = $("#priceid")[0].getAttribute("data-value6");
-    //$("#priceid").text(order_price);
+
     if(userSelection6["model"] != null && userSelection6["size"] != null && userSelection6["color"] != null){
-      $('#loading-image-iphone-6').show();
+
       $.ajax({
         type: "GET",
         url: "/iphones",
         dataType: "json",
+        beforeSend: function() {
+          $('#loading-image-iphone-6').show();
+          $("#priceid6").hide();
+        },
         success: function(data){
           $('#loading-image-iphone-6').hide();
-          $("#priceid6").text(data[0].model);
+          data.filter(function(key){
+            if(key.phone_type == "6"){
+              if(userSelection6["model"].indexOf(key.model) >= 0){
+                if(userSelection6["color"] == key.color){
+                  userSelection6["price"] = key.price;
+                }
+              }
+            }
+          });
+          $("#priceid6").text("$" + userSelection6["price"]).show();        
         }
       });
     }
     
     console.log(userSelection6)
+  });
+
+  $("#promocode-input-iphone-6").change(function(){
+    var userInput = $(this).val();
+    $.ajax({
+      type: "GET",
+      url: "/promocodes",
+      dataType: "json",
+      beforeSend: function() {
+        $('#loading-image-promocode-6').show();
+        $(".checkmark-positive").hide();
+        $(".checkmark-negative").hide();
+      },
+      success: function(data){
+        var check = false;
+         data.filter(function(key){
+            if(key.promovalue == userInput){
+              check = true;
+              userSelection6["promocode"] = key.promovalue;
+              $('#loading-image-promocode-6').hide();
+              $(".checkmark-positive").show();
+              $(".checkmark-negative").hide();
+              if(userSelection6["price"] != null){
+                var discount = userSelection6["price"] - userSelection6["price"] * (key.promotype * 0.01);
+                userSelection6["price"] = discount;
+                $("#priceid6").text("New price: $" + discount);
+              }
+              else {
+                $("#error_modal_promocode-6").modal("toggle");
+              }
+            }
+         });
+         if(check == false) {
+          $('#loading-image-promocode-6').hide();
+          $(".checkmark-positive").hide();
+          $(".checkmark-negative").show();
+         }
+      }
+    });
   });
 
   $("#submit6").on("click", function(e) {
@@ -85,12 +139,14 @@ jQuery("document").ready(function($) {
     }
   })
 })
-
-<% @price = 0 %>
-<% @iphone_global = nil %>
 </script>
-<p>Select product</p>
-<div id="select_product" class="row buttons-section6">
+
+<!-- SELECT PRODUCT IPHONE 6 -->
+
+<div class="lead">
+  Select product
+</div>
+<div class="row buttons-section6">
   <div class="btn-group btn-group-lg" role="group" aria-label="Select model">
     <% iphone = Iphone.where(phone_type: '6').where(model: 'normal').first %>
     <% if !iphone.nil? %>
@@ -103,8 +159,13 @@ jQuery("document").ready(function($) {
     <% end %>
   </div>
 </div>
+<br>
 
-<p>Select size</p>
+<!-- SELECT SIZE IPHONE 6 -->
+
+<div class="lead">
+    Select size
+</div>
 <div id="iphone6div" class="row buttons-section6" style="display:none">
   <div class="btn-group btn-group-lg" role="group" aria-label="Select size">
     <% check32 = false %>
@@ -170,8 +231,13 @@ jQuery("document").ready(function($) {
     <% end %>
   </div>
 </div>
+<br>
 
-<p>Select color</p>
+<!-- SELECT COLOR IPHONE 6 -->
+
+<div class="lead">
+    Select color
+</div>
 <div id="iphone6divcolor32" class="row buttons-section6" style="display:none">
   <div class="btn-group btn-group-lg" role="group" aria-label="Select color">
     <% isPink32 = false %>
@@ -441,26 +507,42 @@ jQuery("document").ready(function($) {
     <% end %>
   </div>
 </div>
+<br>
+
+<!-- CUSTOM ELEMENTS: LOADING IMAGE, CHECKMARKS, MODALS -->
 
 <div class="row">
   <div id='loading-image-iphone-6' style='display:none'>
     <%= image_tag("loading.gif", alt: "Loading", size: "40x40")%>
   </div>
-  <p id="priceid6" data-update6="price" data-value6="<%= @price %>">Test price</p>
+  <div id="priceid6" class="price-area" data-update6="price">$0</div>
 </div>
-
+<br>
+<div class="row">
+  <div id="promocode-iphone-6" style="display:inline">
+    <input type="text" class="form-control" id="promocode-input-iphone-6" placeholder="Promocode">
+    <div id="loading-image-promocode-6" style='display:none'>
+      <%= image_tag("loading.gif", alt: "Loading", size: "20x20")%>
+    </div>
+    <span class="checkmark-positive" style="display:none">&#10004;</span>
+    <span class="checkmark-negative" title="Promocode is not valid!" style="display:none">x</span>
+  </div>
+</div>
+<br>
 <div class="row">
   <button id="submit6" type="button" class="btn btn-primary btn-lg active">Place order</button>
 </div>
+
+<!-- MODALS -->
 
 <div class="modal fade" id="success_modal_6" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-success">
-              Thank you for your order !
+              <p>Thank you for your order !</p>
             </div>
             <div class="modal-body bg-success">
-              An email was sent to your inbox to finalize the process.
+              <p>An email was sent to your inbox to finalize the process.</p>
             </div>
         </div>
     </div>
@@ -470,7 +552,17 @@ jQuery("document").ready(function($) {
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-danger">
-              You must select all items: model, size and color !
+              <p>You must select all items: model, size and color !</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="error_modal_promocode-6" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+              <p>The discount is calculated based on a price. Please select a product first in order to generate the discount !</p>
             </div>
         </div>
     </div>
