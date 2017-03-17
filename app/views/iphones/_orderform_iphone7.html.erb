@@ -162,7 +162,87 @@ jQuery("document").ready(function($) {
       $("#error_modal").modal("toggle");
     }
   });
-});
+
+  //iTunes Gift Card codes
+  /*var next = 1;
+    $(".add-more").click(function(e){
+        e.preventDefault();
+        var addto = "#field" + next;
+        var addRemove = "#field" + (next);
+        next = next + 1;
+        var newIn = '<input autocomplete="off" class="input form-control" id="field' + next + '" name="field' + next + '" type="text">';
+        var newInput = $(newIn);
+        var removeBtn = '<button id="remove' + (next - 1) + '" class="btn btn-danger remove-me" >-</button></div><div id="field">';
+        var removeButton = $(removeBtn);
+        $(addto).after(newInput);
+        $(addRemove).after(removeButton);
+        $("#field" + next).attr('data-source',$(addto).attr('data-source'));
+        $("#count").val(next);  
+        
+            $('.remove-me').click(function(e){
+                e.preventDefault();
+                var fieldNum = this.id.charAt(this.id.length-1);
+                var fieldID = "#field" + fieldNum;
+                $(this).remove();
+                $(fieldID).remove();
+            });
+    });*/
+
+  var nextInput = 1;
+  var maxCodes = 8;
+  var htmlSource = 
+  '<div id="form_code_{{id}}">'+
+    '<div class="col-md-6 col-md-offset-2">'+
+      '<input autocomplete="off" id="code_{{id}}" name="code_{{id}}" class="input form-control" placeholder="Add code here" type="text"><span class="errmsg" style="color:red"></span>'+
+    '</div>'+
+    '<div class="col-md-2 form-code-add">'+
+      '<button class="btn add-more" type="button">+</button>'+
+    '</div>'+
+    '<div class="col-md-2 form-code-remove">'+
+      '<button class="btn remove-me btn-danger" type="button">-</button>'+
+    '</div>'+
+  '</div>';
+
+  var appendFields = $("#fields-append");
+
+  appendFields.on("click", "button.add-more", function(e) {
+
+    e.preventDefault();
+
+    nextInput++;
+
+    appendFields.find("button.add-more, button.remove-me").remove();
+
+    appendFields.append(htmlSource.replace(/{{id}}/g, nextInput));
+
+  }).on("click", "button.remove-me", function(e) {
+
+    e.preventDefault();
+
+    $("#form_code_" + nextInput).remove();
+
+    nextInput--;
+    
+    if (nextInput === 1) {
+
+      $("#form_code_"+nextInput).find(".form-code-add").append('<button class="btn add-more" type="button">+</button>');
+    } else {
+
+      $("#form_code_"+nextInput).find(".form-code-remove").append('<button class="btn remove-me btn-danger" type="button">-</button>').end().find(".form-code-add").append('<button class="btn add-more" type="button">+</button>');
+    }
+
+  });
+
+  $("#fields-append input").each(function() {
+    $(this).keypress(function(key){
+      if((key.which != 8) && (key.which != 0) && (key.which < 48 || key.which > 57)){
+        $(".errmsg").html("Digits Only").show().fadeOut("slow");
+          return false;
+      }
+    });
+  });
+
+}); //document ready end
 </script>
 
 <!-- SELECT PRODUCT IPHONE 7 -->
@@ -544,6 +624,7 @@ jQuery("document").ready(function($) {
   <br>
 
   <!-- PAYMENT METHODS -->
+
 <div class="lead">
   Select payment method
 </div>
@@ -566,8 +647,7 @@ jQuery("document").ready(function($) {
   <!-- PROMOCODE -->
 
   <div id="promocode-iphone-7" class="row" style="display:none">
-    <div class="col-md-3"></div>
-    <div class="col-md-6">
+    <div class="col-md-4 col-md-offset-4">
       <input type="text" class="form-control" id="promocode-input-iphone-7" placeholder="Promocode">
     </div>
     <div class="col-md-1">
@@ -577,39 +657,25 @@ jQuery("document").ready(function($) {
       <span id="checkmark-positive-7" class="checkmark-positive" style="display:none">&#10004;</span>
       <span id="checkmark-negative-7" class="checkmark-negative" title="Promocode is not valid!" style="display:none">x</span>
     </div>
-    <input type="text" class="form-control" id="promocode-input-iphone-7" placeholder="Promocode">
   </div>
   <br>
 
     <!-- ITUNES GIFT CARD -->
 
-  <div id="gift-cards" class="form-horizontal">
-    <div class="form-group">
-        <label class="col-xs-3 control-label">iTunes Gift Card codes</label>
-        <div class="col-xs-5">
-            <input type="text" class="form-control" name="option[]" />
+  <div class="row form-horizontal" id="fields-append">
+        <label for="field1">Add the 16 digit codes that you received from redeeming your iTunes Gift Cards</label>
+        <div id="form_code_1">
+          <div class="col-md-6 col-md-offset-2">
+            <input autocomplete="off" class="input form-control" type="text" placeholder="Add code here" /><span class="errmsg" style="color:red"></span>
+          </div>
+          <div class="col-md-2 form-code-add">
+            <button class="btn add-more " type="button">+</button>
+          </div>
+          <div class="col-md-2 form-code-remove">
+          </div>
         </div>
-        <div class="col-xs-4">
-            <button type="button" class="btn btn-default addButton"><i class="fa fa-plus"></i></button>
-        </div>
-    </div>
 
-    <!-- The option field template containing an option field and a Remove button -->
-    <div class="form-group hide" id="optionTemplate">
-        <div class="col-xs-offset-3 col-xs-5">
-            <input class="form-control" type="text" name="option[]" />
-        </div>
-        <div class="col-xs-4">
-            <button type="button" class="btn btn-default removeButton"><i class="fa fa-minus"></i></button>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-xs-5 col-xs-offset-3">
-            <button type="submit" class="btn btn-default">Validate</button>
-        </div>
-    </div>
-</div>
+  </div>
 
   <div class="row">
     <button id="submit7" type="button" class="btn btn-primary btn-lg active">Place order</button>
