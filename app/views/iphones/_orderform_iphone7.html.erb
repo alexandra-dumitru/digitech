@@ -28,8 +28,12 @@ jQuery("document").ready(function($) {
     size: null,
     color: null,
     price: null,
-    promocode: null
+    promocode: null,
+    payment: null
   }
+
+  var defaultPrice = 0;
+  var iTunesMandatory = false;
 
   $('.buttons-section').on("click", "button", function (e) {
 
@@ -68,6 +72,7 @@ jQuery("document").ready(function($) {
               if(userSelection["model"].indexOf(key.model) >= 0){
                 if(userSelection["color"] == key.color){
                   userSelection["price"] = key.price;
+                  defaultPrice = key.price;
                 }
               }
             }
@@ -76,7 +81,6 @@ jQuery("document").ready(function($) {
         }
       });
     }
-    
     console.log(userSelection)
   });
 
@@ -119,8 +123,28 @@ jQuery("document").ready(function($) {
     });
   });
 
+  $('input[type="radio"]').click(function() {
+     if($(this).attr('id') == 'cash-iphone-7') {
+        $('#promocode-input-iphone-7').val(''); 
+        userSelection["[promocode"] = null;
+        $('#promocode-iphone-7').hide();  
+        $("#checkmark-positive-7").hide();
+        $("#checkmark-negative-7").hide();
+        $("#priceid").text("$" + defaultPrice);
+        iTunesMandatory = false;
+     }
+
+     else if($(this).attr('id') == 'itunes-gift-card-iphone-7'){
+        $('#promocode-iphone-7').show();   
+        iTunesMandatory = true;
+     }
+  });
+
   $("#submit7").on("click", function(e) {
-    if(userSelection.model != null && userSelection.size != null && userSelection.color != null) {      
+    if(userSelection.model != null && userSelection.size != null && userSelection.color != null) {  
+      if($('#itunes-gift-card-iphone-7').is(':checked')) {
+
+      }
       $.ajax({
         type: "POST",
         url: "/orders",
@@ -518,17 +542,75 @@ jQuery("document").ready(function($) {
     <div id="priceid" class="price-area" data-update="price">$0</div>
   </div>
   <br>
-  <div class="row">
-    <div id="promocode-iphone-7" style="display:inline">
+
+  <!-- PAYMENT METHODS -->
+<div class="lead">
+  Select payment method
+</div>
+<div id="buy-now-7" class="row form-horizontal">
+  <div class="form-group">
+    <input type="radio" name="payment" value="cash-iphone-7" id="cash-iphone-7">
+    <label for="cash-iphone-7">Cash on delivery</label> 
+  </div>
+  <div class="form-group">
+    <input type="radio" name="payment" value="itunes-gift-card-iphone-7" id="itunes-gift-card-iphone-7">
+    <label for="itunes-gift-card-iphone-7">iTunes Gift Cards</label> 
+  </div>
+  <div class="form-group">
+    <input type="radio" name="payment" value="card-iphone-7" id="card-iphone-7" disabled> 
+    <label for="card-iphone-7">Credit card</label> 
+  </div>
+</div>
+<br>
+
+  <!-- PROMOCODE -->
+
+  <div id="promocode-iphone-7" class="row" style="display:none">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
       <input type="text" class="form-control" id="promocode-input-iphone-7" placeholder="Promocode">
+    </div>
+    <div class="col-md-1">
       <div id="loading-image-promocode-7" style='display:none'>
         <%= image_tag("loading.gif", alt: "Loading", size: "20x20")%>
       </div>
       <span id="checkmark-positive-7" class="checkmark-positive" style="display:none">&#10004;</span>
       <span id="checkmark-negative-7" class="checkmark-negative" title="Promocode is not valid!" style="display:none">x</span>
     </div>
+    <input type="text" class="form-control" id="promocode-input-iphone-7" placeholder="Promocode">
   </div>
   <br>
+
+    <!-- ITUNES GIFT CARD -->
+
+  <div id="gift-cards" class="form-horizontal">
+    <div class="form-group">
+        <label class="col-xs-3 control-label">iTunes Gift Card codes</label>
+        <div class="col-xs-5">
+            <input type="text" class="form-control" name="option[]" />
+        </div>
+        <div class="col-xs-4">
+            <button type="button" class="btn btn-default addButton"><i class="fa fa-plus"></i></button>
+        </div>
+    </div>
+
+    <!-- The option field template containing an option field and a Remove button -->
+    <div class="form-group hide" id="optionTemplate">
+        <div class="col-xs-offset-3 col-xs-5">
+            <input class="form-control" type="text" name="option[]" />
+        </div>
+        <div class="col-xs-4">
+            <button type="button" class="btn btn-default removeButton"><i class="fa fa-minus"></i></button>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-xs-5 col-xs-offset-3">
+            <button type="submit" class="btn btn-default">Validate</button>
+        </div>
+    </div>
+</div>
+
   <div class="row">
     <button id="submit7" type="button" class="btn btn-primary btn-lg active">Place order</button>
   </div>

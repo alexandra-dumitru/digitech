@@ -1,9 +1,11 @@
-Welcome to example.com, <%= @user.name %>
-===============================================
- 
-You have successfully signed up to example.com,
-your username is: <%= @user.email %>.
- 
-To login to the site, just follow this link: <%= @url %>.
- 
-Thanks for joining and have a great day!
+Dear <%= @user.name %>,
+
+Thank you for your purchase of the following product:
+
+Product type: <%= @order.product_type %>
+Product size: <%= @order.product_size %> GB
+Product color: <%= @order.product_color %>
+Price: <%= @order.amount %>
+
+Click here to read about <%= link_to "iTunes Gift Cards", @url %>
+Click here to <%= link_to "complete payment", @url %>

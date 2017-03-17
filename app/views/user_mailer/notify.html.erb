@@ -12,6 +12,11 @@
     <p>Product size: <%= @order.product_size %> GB</p>
     <p>Product color: <%= @order.product_color %></p>
     <p>Price: <%= @order.amount %></p>
-    <p></p>
+    <% if !@order.promocode.nil? %>
+      <p>Promocode used: <%= @order.promocode %></p>
+    <% end %>
+    <br>
+    <p>Click here to read about <%= link_to "iTunes Gift Cards", @url %></p>
+    <p>Click here to <%= link_to "complete payment", @url %></p>
   </body>
 </html>

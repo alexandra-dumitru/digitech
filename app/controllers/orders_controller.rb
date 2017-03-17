@@ -46,8 +46,10 @@ class OrdersController < ApplicationController
       @order.amount = @current_iphone.price
       if(!@order.promocode.nil?)
         current_promocode = Promocode.where(promovalue: params[:promocode]).first
-        discount = @order.amount - @order.amount * current_promocode.promotype * 0.01
-        @order.amount = discount
+        if(!current_promocode.nil?)
+          discount = @order.amount - @order.amount * current_promocode.promotype * 0.01
+          @order.amount = discount
+        end
       end
       UserMailer.notify(current_user, @order).deliver
       
