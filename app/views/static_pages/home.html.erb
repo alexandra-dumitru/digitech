@@ -4,7 +4,9 @@
 
   <h1 style="color: #fff">Welcome to Digitech's Apple shop</h1>
   <h2>In order to purchase items you need to sign up or log in if you already have an account.</h2>
-  <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-default" %>
+  <% if !logged_in? %>
+  	<%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-default" %>
+  <% end %>
   <br>
   <hr class="line-separator">
   <h3 class="lead" style="color:#ffffff"><strong> Browse products </strong></h3>

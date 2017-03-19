@@ -29,7 +29,7 @@ jQuery("document").ready(function($) {
     color: null,
     price: null,
     promocode: null,
-    payment: null
+    giftCard: null
   }
 
   var defaultPrice = 0;
@@ -39,7 +39,6 @@ jQuery("document").ready(function($) {
 
     var me = e.currentTarget;
     var update = me.getAttribute("data-update");
-
 
     switch (update) {
       case "model":
@@ -84,50 +83,12 @@ jQuery("document").ready(function($) {
     console.log(userSelection)
   });
 
-  $("#promocode-input-iphone-7").change(function(){
-    var userInput = $(this).val();
-    $.ajax({
-      type: "GET",
-      url: "/promocodes",
-      dataType: "json",
-      beforeSend: function() {
-        $('#loading-image-promocode-7').show();
-        $("#checkmark-positive-7").hide();
-        $("#checkmark-negative-7").hide();
-      },
-      success: function(data){
-        var check = false;
-         data.filter(function(key){
-            if(key.promovalue == userInput){
-              check = true;
-              userSelection["promocode"] = key.promovalue;
-              $('#loading-image-promocode-7').hide();
-              $("#checkmark-positive-7").show();
-              $("#checkmark-negative-7").hide();
-              if(userSelection["price"] != null){
-                var discount = userSelection["price"] - userSelection["price"] * (key.promotype * 0.01);
-                userSelection["price"] = discount;
-                $("#priceid").text("New price: $" + discount);
-              }
-              else {
-                $("#error_modal_promocode").modal("toggle");
-              }
-            }
-         });
-         if(check == false) {
-          $('#loading-image-promocode-7').hide();
-          $("#checkmark-positive-7").hide();
-          $("#checkmark-negative-7").show();
-         }
-      }
-    });
-  });
-
   $('input[type="radio"]').click(function() {
      if($(this).attr('id') == 'cash-iphone-7') {
         $('#promocode-input-iphone-7').val(''); 
-        userSelection["[promocode"] = null;
-        $('#promocode-iphone-7').hide();  
+        userSelection["promocode"] = null;
+        //$('#promocode-iphone-7').hide();  
+        $('#gift-card-text-7').hide();
         $("#checkmark-positive-7").hide();
         $("#checkmark-negative-7").hide();
         $("#priceid").text("$" + defaultPrice);
@@ -135,16 +96,30 @@ jQuery("document").ready(function($) {
      }
 
      else if($(this).attr('id') == 'itunes-gift-card-iphone-7'){
-        $('#promocode-iphone-7').show();   
+        //$('#promocode-iphone-7').show();   
+        $('#gift-card-text-7').show(); 
         iTunesMandatory = true;
      }
   });
 
+  $("#read-more-7").on("click", function(e) {
+    if(userSelection.model != null && userSelection.size != null && userSelection.color != null) {  
+      $.ajax({
+        type: "POST",
+        url: "/order_items",
+        data: userSelection,
+        success: function(){
+          window.location.replace("/itunes-gift-cards");
+        }
+      });
+    }
+    else {
+      $("#error_modal").modal("toggle");
+    }
+  });
+
   $("#submit7").on("click", function(e) {
     if(userSelection.model != null && userSelection.size != null && userSelection.color != null) {  
-      if($('#itunes-gift-card-iphone-7').is(':checked')) {
-
-      }
       $.ajax({
         type: "POST",
         url: "/orders",
@@ -162,86 +137,6 @@ jQuery("document").ready(function($) {
       $("#error_modal").modal("toggle");
     }
   });
-
-  //iTunes Gift Card codes
-  /*var next = 1;
-    $(".add-more").click(function(e){
-        e.preventDefault();
-        var addto = "#field" + next;
-        var addRemove = "#field" + (next);
-        next = next + 1;
-        var newIn = '<input autocomplete="off" class="input form-control" id="field' + next + '" name="field' + next + '" type="text">';
-        var newInput = $(newIn);
-        var removeBtn = '<button id="remove' + (next - 1) + '" class="btn btn-danger remove-me" >-</button></div><div id="field">';
-        var removeButton = $(removeBtn);
-        $(addto).after(newInput);
-        $(addRemove).after(removeButton);
-        $("#field" + next).attr('data-source',$(addto).attr('data-source'));
-        $("#count").val(next);  
-        
-            $('.remove-me').click(function(e){
-                e.preventDefault();
-                var fieldNum = this.id.charAt(this.id.length-1);
-                var fieldID = "#field" + fieldNum;
-                $(this).remove();
-                $(fieldID).remove();
-            });
-    });*/
-
-  var nextInput = 1;
-  var maxCodes = 8;
-  var htmlSource = 
-  '<div id="form_code_{{id}}">'+
-    '<div class="col-md-6 col-md-offset-2">'+
-      '<input autocomplete="off" id="code_{{id}}" name="code_{{id}}" class="input form-control" placeholder="Add code here" type="text"><span class="errmsg" style="color:red"></span>'+
-    '</div>'+
-    '<div class="col-md-2 form-code-add">'+
-      '<button class="btn add-more" type="button">+</button>'+
-    '</div>'+
-    '<div class="col-md-2 form-code-remove">'+
-      '<button class="btn remove-me btn-danger" type="button">-</button>'+
-    '</div>'+
-  '</div>';
-
-  var appendFields = $("#fields-append");
-
-  appendFields.on("click", "button.add-more", function(e) {
-
-    e.preventDefault();
-
-    nextInput++;
-
-    appendFields.find("button.add-more, button.remove-me").remove();
-
-    appendFields.append(htmlSource.replace(/{{id}}/g, nextInput));
-
-  }).on("click", "button.remove-me", function(e) {
-
-    e.preventDefault();
-
-    $("#form_code_" + nextInput).remove();
-
-    nextInput--;
-    
-    if (nextInput === 1) {
-
-      $("#form_code_"+nextInput).find(".form-code-add").append('<button class="btn add-more" type="button">+</button>');
-    } else {
-
-      $("#form_code_"+nextInput).find(".form-code-remove").append('<button class="btn remove-me btn-danger" type="button">-</button>').end().find(".form-code-add").append('<button class="btn add-more" type="button">+</button>');
-    }
-
-  });
-
-  $("#fields-append input").each(function() {
-    $(this).keypress(function(key){
-      if((key.which != 8) && (key.which != 0) && (key.which < 48 || key.which > 57)){
-        $(".errmsg").html("Digits Only").show().fadeOut("slow");
-          return false;
-      }
-    });
-  });
-
 }); //document ready end
 </script>
 
@@ -636,6 +531,8 @@ jQuery("document").ready(function($) {
   <div class="form-group">
     <input type="radio" name="payment" value="itunes-gift-card-iphone-7" id="itunes-gift-card-iphone-7">
     <label for="itunes-gift-card-iphone-7">iTunes Gift Cards</label> 
+    <p class="col-md-12" id="gift-card-text-7" style="display:none"> Because you are using an Apple promo code discount on our website the only payment method accepted using your promo code discount is by Apple Itunes Cards. 
+    <a id="read-more-7">READ MORE ABOUT Apple Itunes Cards</a></p>
   </div>
   <div class="form-group">
     <input type="radio" name="payment" value="card-iphone-7" id="card-iphone-7" disabled> 
@@ -643,43 +540,6 @@ jQuery("document").ready(function($) {
   </div>
 </div>
 <br>
-
-  <!-- PROMOCODE -->
-
-  <div id="promocode-iphone-7" class="row" style="display:none">
-    <div class="col-md-4 col-md-offset-4">
-      <input type="text" class="form-control" id="promocode-input-iphone-7" placeholder="Promocode">
-    </div>
-    <div class="col-md-1">
-      <div id="loading-image-promocode-7" style='display:none'>
-        <%= image_tag("loading.gif", alt: "Loading", size: "20x20")%>
-      </div>
-      <span id="checkmark-positive-7" class="checkmark-positive" style="display:none">&#10004;</span>
-      <span id="checkmark-negative-7" class="checkmark-negative" title="Promocode is not valid!" style="display:none">x</span>
-    </div>
-  </div>
-  <br>
-
-    <!-- ITUNES GIFT CARD -->
-
-  <div class="row form-horizontal" id="fields-append">
-        <label for="field1">Add the 16 digit codes that you received from redeeming your iTunes Gift Cards</label>
-        <div id="form_code_1">
-          <div class="col-md-6 col-md-offset-2">
-            <input autocomplete="off" class="input form-control" type="text" placeholder="Add code here" /><span class="errmsg" style="color:red"></span>
-          </div>
-          <div class="col-md-2 form-code-add">
-            <button class="btn add-more " type="button">+</button>
-          </div>
-          <div class="col-md-2 form-code-remove">
-          </div>
-        </div>
-
-  </div>
-
-  <div class="row">
-    <button id="submit7" type="button" class="btn btn-primary btn-lg active">Place order</button>
-  </div>
 
 <!-- MODALS -->
 

@@ -1,0 +1,102 @@
+<script>
+	jQuery("document").ready(function($) {
+		$.ajax({
+			type: "GET",
+			url: "/itunes",
+			dataType: "json",
+			success: function(data){
+				data.filter(function(key){
+					$("#testPost").text(key);
+				});
+			}
+		});
+
+	  $("#promocode-input-iphone-7").change(function(){
+	    var userInput = $(this).val();
+	    $.ajax({
+	      type: "GET",
+	      url: "/promocodes",
+	      dataType: "json",
+	      beforeSend: function() {
+	        $('#loading-image-promocode-7').show();
+	        $("#checkmark-positive-7").hide();
+	        $("#checkmark-negative-7").hide();
+	      },
+	      success: function(data){
+	        var check = false;
+	         data.filter(function(key){
+	            if(key.promovalue == userInput){
+	              check = true;
+	              userSelection["promocode"] = key.promovalue;
+	              $('#loading-image-promocode-7').hide();
+	              $("#checkmark-positive-7").show();
+	              $("#checkmark-negative-7").hide();
+	              if(userSelection["price"] != null){
+	                var discount = userSelection["price"] - userSelection["price"] * (key.promotype * 0.01);
+	                userSelection["price"] = discount;
+	                $("#priceid").text("New price: $" + discount);
+	              }
+	              else {
+	                $("#error_modal_promocode").modal("toggle");
+	              }
+	            }
+	         });
+	         if(check == false) {
+	          $('#loading-image-promocode-7').hide();
+	          $("#checkmark-positive-7").hide();
+	          $("#checkmark-negative-7").show();
+	         }
+	      }
+	    });
+	  });
+	});
+</script>
+
+
+<div class="jumbotron">
+<h1 id="testPost">Testing data...</h1>
+
+ <!-- PROMOCODE -->
+
+  <div class="lead">
+    Add your promocode
+  </div>
+
+  <div id="promocode-iphone-7" class="row" style="display:none">
+    <div class="col-md-6 col-md-offset-2">
+      <input type="text" class="form-control" id="promocode-input-iphone-7" placeholder="Promocode">
+    </div>
+    <div class="col-md-1">
+      <div id="loading-image-promocode-7" style='display:none'>
+        <%= image_tag("loading.gif", alt: "Loading", size: "20x20")%>
+      </div>
+      <span id="checkmark-positive-7" class="checkmark-positive" style="display:none">&#10004;</span>
+      <span id="checkmark-negative-7" class="checkmark-negative" title="Promocode is not valid!" style="display:none">x</span>
+    </div>
+  </div>
+  <br>
+
+<!-- iTunes Gift Cards -->
+
+  <div class="lead">
+    Add your gift card 16 digit codes below
+  </div>
+
+  <div class="row form-horizontal" id="fields-append">
+    <label for="field1">Add the 16 digit codes that you received from redeeming your iTunes Gift Cards</label>
+    <div id="form_code_1">
+      <div class="col-md-6 col-md-offset-2">
+        <input autocomplete="off" class="input form-control" type="text" placeholder="Add code here" /><span class="errmsg" style="color:red"></span>
+      </div>
+      <div class="col-md-2 form-code-add">
+        <button class="btn add-more" type="button">+</button>
+      </div>
+      <div class="col-md-2 form-code-remove">
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <button id="submit7" type="button" class="btn btn-primary btn-lg active">Place order</button>
+  </div>
+</div>

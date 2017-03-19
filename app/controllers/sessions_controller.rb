@@ -17,4 +17,16 @@ class SessionsController < ApplicationController
     log_out
     redirect_to root_url
   end
+
+  def order_session_data
+    session[:model] = params[:model]
+    session[:size] = params[:size]
+    session[:color] = params[:color]
+    session[:price] = params[:price]
+    @object = {model: session[:model], size: session[:size], color: session[:color], price: session[:price]}
+
+    respond_to do |format|
+      format.json {render json: @object}
+    end
+  end
 end
