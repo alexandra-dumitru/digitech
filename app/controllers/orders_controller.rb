@@ -51,6 +51,7 @@ class OrdersController < ApplicationController
           @order.amount = discount
         end
       end
+      @order.gift_card = params[:itunesCodes]
       UserMailer.notify(current_user, @order).deliver
       
       respond_to do |format|

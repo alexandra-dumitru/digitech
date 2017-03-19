@@ -15,8 +15,9 @@
     <% if !@order.promocode.nil? %>
       <p>Promocode used: <%= @order.promocode %></p>
     <% end %>
+    <% if !@order.gift_card.nil? %>
+      <p>iTunes gift card codes used: <%= @order.gift_card %></p>
+    <% end %>
     <br>
-    <p>Click here to read about <%= link_to "iTunes Gift Cards", @url %></p>
-    <p>Click here to <%= link_to "complete payment", @url %></p>
   </body>
 </html>
