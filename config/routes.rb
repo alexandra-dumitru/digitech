@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   get '/itunes-gift-cards', to: 'static_pages#itunes-gift-cards'
   post '/order_items', to: 'sessions#order_session_data'
   get '/order_items', to: 'sessions#order_session_data'
-  get '/complete-payment-for-iphone', to: 'iphones#complete-payment'
+  get '/complete-payment', to: 'static_pages#complete-payment'
 
   resources :promocodes
   resources :users

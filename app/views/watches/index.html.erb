@@ -1,11 +1,50 @@
-<p id="notice"><%= notice %></p>
+
 
 <h1>Watches</h1>
+
+<% provide(:title, "Watch Products") %>
+
+<div class="center jumbotron products-body" style="background-color: #cccccc">
+<h1>Watch products</h1>
+
+    <% counter = 0 %>
+      <% @watches.each do |watch| %>
+        <% counter = counter + 1 %>
+        <% if counter % 3 == 0  %>
+          <div class="row"> 
+        <% end %>
+            <div class="col-md-4">
+              <div class="thumbnail">
+                <%= link_to watch do %>
+                  <%= image_tag("watch.jpg", alt: "watchbook default")%>
+                  <div class="caption">
+                    <span><%= watch.description %></span><br>
+                    <% case watch.color %>
+                    <% when "pink" %>
+                      <div class="pink-square"></div>
+                    <% when "gold" %>
+                      <div class="gold-square"></div>
+                    <% when "silver" %>
+                      <div class="silver-square"></div>
+                    <% when "black" %>
+                      <div class="watch-black-square"></div>
+                    <% else %>
+                      <div class="white-square"></div>
+                    <% end %>
+                    <div class="price-area">$<%= watch.price %></div>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+        <% end %>      
+      </div> 
+</div>
 
 <table>
   <thead>
     <tr>
       <th>Description</th>
+      <th>Color</th>
       <th>Price</th>
       <th colspan="3"></th>
     </tr>
@@ -15,6 +54,7 @@
     <% @watches.each do |watch| %>
       <tr>
         <td><%= watch.description %></td>
+        <td><%= watch.color %></td>
         <td><%= watch.price %></td>
         <td><%= link_to 'Show', watch %></td>
         <td><%= link_to 'Edit', edit_watch_path(watch) %></td>
@@ -24,6 +64,5 @@
   </tbody>
 </table>
 
-<br>
 
 <%= link_to 'New Watch', new_watch_path %>

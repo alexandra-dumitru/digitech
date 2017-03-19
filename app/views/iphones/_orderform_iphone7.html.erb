@@ -27,14 +27,10 @@ jQuery("document").ready(function($) {
     model: null,
     size: null,
     color: null,
-    price: null,
-    promocode: null,
-    giftCard: null
+    price: null
   }
 
   var defaultPrice = 0;
-  var iTunesMandatory = false;
-
   $('.buttons-section').on("click", "button", function (e) {
 
     var me = e.currentTarget;
@@ -71,6 +67,7 @@ jQuery("document").ready(function($) {
               if(userSelection["model"].indexOf(key.model) >= 0){
                 if(userSelection["color"] == key.color){
                   userSelection["price"] = key.price;
+                  $("#description-iphone-7").text(key.description);
                   defaultPrice = key.price;
                 }
               }
@@ -85,20 +82,12 @@ jQuery("document").ready(function($) {
 
   $('input[type="radio"]').click(function() {
      if($(this).attr('id') == 'cash-iphone-7') {
-        $('#promocode-input-iphone-7').val(''); 
-        userSelection["promocode"] = null;
-        //$('#promocode-iphone-7').hide();  
         $('#gift-card-text-7').hide();
-        $("#checkmark-positive-7").hide();
-        $("#checkmark-negative-7").hide();
         $("#priceid").text("$" + defaultPrice);
-        iTunesMandatory = false;
      }
 
      else if($(this).attr('id') == 'itunes-gift-card-iphone-7'){
-        //$('#promocode-iphone-7').show();   
         $('#gift-card-text-7').show(); 
-        iTunesMandatory = true;
      }
   });
 
@@ -540,9 +529,14 @@ jQuery("document").ready(function($) {
   </div>
 </div>
 <br>
- <div class="row">
-    <button id="submit7" type="button" class="btn btn-primary btn-lg active">Place order</button>
-  </div>
+
+ <% if logged_in? %>
+   <div class="row">
+      <button id="submit7" type="button" class="btn btn-primary btn-lg active">Place order</button>
+   </div>
+ <% else %>
+   <div class="text-danger"> You need to sign up / log in to place an order!</div>
+ <% end %>
 
 <!-- MODALS -->
 
@@ -564,16 +558,6 @@ jQuery("document").ready(function($) {
         <div class="modal-content">
             <div class="modal-header bg-danger">
               <p>You must select all items: model, size and color !</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="error_modal_promocode" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-danger">
-              <p>The discount is calculated based on a price. Please select a product first in order to generate the discount !</p>
             </div>
         </div>
     </div>

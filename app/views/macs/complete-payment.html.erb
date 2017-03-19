@@ -1,0 +1,203 @@
+<script>
+	jQuery("document").ready(function($) {
+		var orderData = {
+			model: "<%= session[:mac_type] %>",
+			size: "<%= session[:size] %>",
+			color: "<%= session[:color] %>",
+			price: "<%= session[:price] %>",
+			promocode: null,
+			itunesCodes: ""
+		}
+
+		console.log(orderData)
+
+	  var discount = 0;
+	  $("#promocode-input-mac").change(function(){
+	    var userInput = $(this).val();
+	    $.ajax({
+	      type: "GET",
+	      url: "/promocodes",
+	      dataType: "json",
+	      success: function(data){
+	        var check = false;
+	         data.filter(function(key){
+	            if(key.promovalue == userInput){
+	              check = true;
+	              orderData["promocode"] = key.promovalue;
+	              $('#loading-image-promocode-mac').hide();
+	              $("#promocode-input-mac").parent().addClass("has-success").removeClass("has-error");
+	              if(orderData["price"] != null){
+	                discount = orderData["price"] - orderData["price"] * key.promotype * 0.01;
+	                $("#price-mac").text("New price: $" + discount);
+	              }
+	              else {
+	                $("#error_modal_promocode").modal("toggle");
+	              }
+	            }
+	         });
+	         if(check == false) {
+	          $("#promocode-input-mac").parent().addClass("has-error").removeClass("has-success");
+	         }
+	         console.log(orderData)
+	      }
+	    });
+	  });
+
+	  var nextInput = 1;
+	  var maxCodes = 8;
+	  var htmlSource = 
+	  '<div id="form_code_{{id}}">'+
+	    '<div class="col-md-4 col-md-offset-4">'+
+	      '<input autocomplete="off" id="code_{{id}}" maxlength="16" name="code_{{id}}" class="input form-control" placeholder="Add code here" type="text"><span class="errmsg" style="color:red"></span>'+
+	    '</div>'+
+	    '<div class="col-md-1 form-code-add">'+
+	      '<button class="btn add-more btn-default" type="button">+</button>'+
+	    '</div>'+
+	    '<div class="col-md-1 form-code-remove">'+
+	      '<button class="btn remove-me btn-danger" type="button">-</button>'+
+	    '</div>'+
+	  '</div>';
+
+	  var appendFields = $("#fields-append");
+
+	  appendFields.on("click", "button.add-more", function(e) {
+
+	    e.preventDefault();
+
+	    nextInput++;
+
+	    appendFields.find("button.add-more, button.remove-me").remove();
+
+	    appendFields.append(htmlSource.replace(/{{id}}/g, nextInput));
+
+	  }).on("click", "button.remove-me", function(e) {
+
+	    e.preventDefault();
+
+	    $("#form_code_" + nextInput).remove();
+
+	    nextInput--;
+	    
+	    if (nextInput === 1) {
+
+	      $("#form_code_"+nextInput).find(".form-code-add").append('<button class="btn btn-default add-more" type="button">+</button>');
+	    } else {
+
+	      $("#form_code_"+nextInput).find(".form-code-remove").append('<button class="btn remove-me btn-danger" type="button">-</button>').end().find(".form-code-add").append('<button class="btn btn-default add-more" type="button">+</button>');
+	    }
+
+	  }).on("keypress", "input", function(e) {
+		if((e.which != 8) && (e.which != 0) && (e.which < 48 || e.which > 57)){
+	        $(e.currentTarget).next(".errmsg").html("Digits Only").show().fadeOut("slow");
+	          return false;
+	      }
+	    if(e.currentTarget.value.length == 16) {
+
+	    	$(e.currentTarget).parent().addClass("has-success").removeClass("has-error")
+	    } else {
+
+	    	$(e.currentTarget).parent().removeClass("has-success").addClass("has-error")
+	    }
+	  });
+
+	  $("#submit-mac-promo-gift").on("click", function(e){
+
+	  	var itunesCodes = [];
+
+		appendFields.find("input").each(function(e) {
+
+			itunesCodes.push(this.value);
+		});
+
+		orderData.itunesCodes = itunesCodes.toString();
+
+	  	$.ajax({
+        	type: "POST",
+        	url: "/orders",
+        	dataType: "json",
+        	data: orderData,
+        	success: function(){
+	         	$("#success_modal_promocode").modal("toggle");
+	          	$("#success_modal_promocode").on('hidden.bs.modal', function() {
+	            	window.location.replace("/home");
+          	});
+        	},
+        	error: function() {
+        		$("#error_modal_promocode").modal("toggle");
+        	}
+      	});
+	  });
+
+	}); // document ready end
+</script>
+
+
+<div class="jumbotron center">
+<h1>Order data: <%= session[:model] + " " + session[:size] + " " + session[:color] + " " + session[:price]%></h1>
+<br>
+ <!-- PROMOCODE -->
+
+  <div class="lead">
+    Promocode
+  </div>
+
+  <div id="promocode-mac" class="row form-horizontal">
+    <div class="col-md-4 col-md-offset-4">
+      <input type="text" class="form-control" id="promocode-input-mac" placeholder="Promocode">
+      <br>
+      <div id="price-mac" class="price-area"></div>
+    </div>
+  </div>
+  <br>
+
+<!-- iTunes Gift Cards -->
+
+  <div class="lead">
+    iTunes gift card 16 digit codes
+  </div>
+
+  <div class="row form-horizontal" id="fields-append">
+    <div id="form_code_1">
+      <div class="col-md-4 col-md-offset-4">
+        <input autocomplete="off" class="input form-control" maxlength="16" type="text" placeholder="Add code here" /><span class="errmsg" style="color:red"></span>
+      </div>
+      <div class="col-md-1 form-code-add">
+        <button class="btn add-more btn-default" type="button">+</button>
+      </div>
+      <div class="col-md-1 form-code-remove">
+      </div>
+    </div>
+  </div>
+
+
+ <% if logged_in? %>
+   <div class="row">
+      <button id="submit-mac-promo-gift" type="button" class="btn btn-primary btn-lg active">Place order</button>
+   </div>
+ <% else %>
+   <div class="text-danger"> You need to sign up / log in to place an order!</div>
+ <% end %>
+
+  <div class="modal fade" id="success_modal_promocode" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+              <p>Thank you for your order !</p>
+            </div>
+            <div class="modal-body bg-success">
+              <p>An email was sent to your inbox to finalize the process.</p>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="error_modal_promocode" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+              <p>Something went wrong! Please try again!</p>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

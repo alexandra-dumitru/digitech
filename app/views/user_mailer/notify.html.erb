@@ -11,7 +11,7 @@
     <p>Product type: <%= @order.product_type %></p>
     <p>Product size: <%= @order.product_size %> GB</p>
     <p>Product color: <%= @order.product_color %></p>
-    <p>Price: <%= @order.amount %></p>
+    <p>Price: $<%= @order.amount %></p>
     <% if !@order.promocode.nil? %>
       <p>Promocode used: <%= @order.promocode %></p>
     <% end %>

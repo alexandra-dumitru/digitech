@@ -1,50 +1,48 @@
 <script>
 jQuery("document").ready(function($){
-	var current_promocode = null;
+	var macSelection = {
+    model: "<%= @mac.mac_type %>",
+    size: "<%= @mac.size %>",
+    color: "<%= @mac.color %>",
+    price: "<%= @mac.price %>"
+  }
 
-	$("#promocode-input-mac").change(function(){
-    var userInput = $(this).val();
-    var price = $("#price_mac_id").val();
-    $.ajax({
-      type: "GET",
-      url: "/promocodes",
-      dataType: "json",
-      beforeSend: function() {
-        $('#loading-image-promocode-mac').show();
-        $("#checkmark-positive-mac").hide();
-        $("#checkmark-negative-mac").hide();
-      },
-      success: function(data){
-        var check = false;
-         data.filter(function(key){
-            if(key.promovalue == userInput){
-              check = true;
-              var discount = price - 10;
-              $("#price_mac_id").text("New price: $" + discount);
-              $('#loading-image-promocode-mac').hide();
-              $("#checkmark-positive-mac").show();
-              $("#checkmark-negative-mac").hide();
-            }
-         });
-         if(check == false) {
-          $('#loading-image-promocode-mac').hide();
-          $("#checkmark-positive-mac").hide();
-          $("#checkmark-negative-mac").show();
-         }
-      }
-    });
+  $('input[type="radio"]').click(function() {
+     if($(this).attr('id') == 'cash-mac') {
+        $('#gift-card-text-mac').hide();
+     }
+
+     else if($(this).attr('id') == 'itunes-gift-card-mac'){
+        $('#gift-card-text-mac').show(); 
+     }
   });
 
+  $("#read-more-mac").on("click", function(e) {
+    if(macSelection.model != null && macSelection.size != null && macSelection.color != null) {  
+      $.ajax({
+        type: "POST",
+        url: "/order_items",
+        data: macSelection,
+        success: function(){
+          window.location.replace("/itunes-gift-cards");
+        }
+      });
+    }
+    else {
+      $("#error_modal_mac").modal("toggle");
+    }
+  });
+console.log(macSelection)
 	$("#submitMac").on("click", function(e) {
     	$.ajax({
         type: "POST",
         url: "/orders",
         dataType: "json",
-        data: userSelectionSE,
+        data: macSelection,
         success: function(){
-          $("#success_modal_SE").modal("toggle");
-          $("#success_modal_SE").on('hidden.bs.modal', function() {
-            window.location.replace("/iphones");
+          $("#success_modal_mac").modal("toggle");
+          $("#success_modal_mac").on('hidden.bs.modal', function() {
+            //window.location.replace("/macs");
           });
         }
       });
@@ -54,21 +52,65 @@ jQuery("document").ready(function($){
 
 </script>
 
+<!-- AMOUNT -->
+
 <div class="row">
-	<div id="price_mac_id" class="price-area-mac"><%= @mac.price %></div>
+	<div id="price_mac_id" class="price-area-mac">$<%= @mac.price %></div>
 </div>
 <br>
-<div class="row">
-  <div id="promocode-mac" style="display:inline">
-    <input type="text" id="promocode-input-mac" class="form-control" placeholder="Promocode">
-    <div id="loading-image-promocode-mac" style='display:none'>
-      <%= image_tag("loading.gif", alt: "Loading", size: "20x20")%>
-    </div>
-    <span id="checkmark-positive-mac"" class="checkmark-positive" style="display:none">&#10004;</span>
-    <span id="checkmark-negative-mac" class="checkmark-negative" title="Promocode is not valid!" style="display:none">x</span>
+
+<!-- PAYMENT METHODS -->
+
+<div class="lead">
+  Select payment method
+</div>
+<div id="buy-now-mac" class="row form-horizontal">
+  <div class="form-group">
+    <input type="radio" name="payment" value="cash-mac" id="cash-mac">
+    <label for="cash-mac">Cash on delivery</label> 
+  </div>
+  <div class="form-group">
+    <input type="radio" name="payment" value="itunes-gift-card-mac" id="itunes-gift-card-mac">
+    <label for="itunes-gift-card-mac">iTunes Gift Cards</label> 
+    <p class="col-md-12" id="gift-card-text-mac" style="display:none"> Because you are using an Apple promo code discount on our website the only payment method accepted using your promo code discount is by Apple Itunes Cards. 
+    <a id="read-more-mac">READ MORE ABOUT Apple Itunes Cards</a></p>
+  </div>
+  <div class="form-group">
+    <input type="radio" name="payment" value="card-mac" id="card-mac" disabled> 
+    <label for="card-mac">Credit card</label> 
   </div>
 </div>
 <br>
-<div class="row">
-  <button id="submitMac" type="button" class="btn btn-primary btn-lg active">Place order</button>
+
+ <% if logged_in? %>
+   <div class="row">
+      <button id="submitMac" type="button" class="btn btn-primary btn-lg active">Place order</button>
+   </div>
+ <% else %>
+   <div class="text-danger"> You need to sign up / log in to place an order!</div>
+ <% end %>
+
+<!-- MODALS -->
+
+ <div class="modal fade" id="success_modal_mac" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+              <p>Thank you for your order !</p>
+            </div>
+            <div class="modal-body bg-success">
+              <p>An email was sent to your inbox to finalize the process.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="error_modal_mac" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+              <p>You must select all items: model, size and color !</p>
+            </div>
+        </div>
+    </div>
 </div>

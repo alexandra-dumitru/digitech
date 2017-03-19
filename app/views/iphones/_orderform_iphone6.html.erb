@@ -27,9 +27,10 @@ jQuery("document").ready(function($) {
     model: null,
     size: null,
     color: null,
-    price: null,
-    promocode: null
+    price: null
   }
+
+  var defaultPriceiPhone6 = 0;
 
   $('.buttons-section6').on("click", "button", function (e) {
 
@@ -68,6 +69,8 @@ jQuery("document").ready(function($) {
               if(userSelection6["model"].indexOf(key.model) >= 0){
                 if(userSelection6["color"] == key.color){
                   userSelection6["price"] = key.price;
+                  $("#description-iphone-6").text(key.description);
+                  defaultPriceiPhone6 = key.price;
                 }
               }
             }
@@ -80,43 +83,30 @@ jQuery("document").ready(function($) {
     console.log(userSelection6)
   });
 
-  $("#promocode-input-iphone-6").change(function(){
-    var userInput = $(this).val();
-    $.ajax({
-      type: "GET",
-      url: "/promocodes",
-      dataType: "json",
-      beforeSend: function() {
-        $('#loading-image-promocode-6').show();
-        $("#checkmark-positive-6").hide();
-        $("#checkmark-negative-6").hide();
-      },
-      success: function(data){
-        var check = false;
-         data.filter(function(key){
-            if(key.promovalue == userInput){
-              check = true;
-              userSelection6["promocode"] = key.promovalue;
-              $('#loading-image-promocode-6').hide();
-              $("#checkmark-positive-6").show();
-              $("#checkmark-negative-6").hide();
-              if(userSelection6["price"] != null){
-                var discount = userSelection6["price"] - userSelection6["price"] * (key.promotype * 0.01);
-                userSelection6["price"] = discount;
-                $("#priceid6").text("New price: $" + discount);
-              }
-              else {
-                $("#error_modal_promocode-6").modal("toggle");
-              }
-            }
-         });
-         if(check == false) {
-          $('#loading-image-promocode-6').hide();
-          $("#checkmark-positive-6").hide();
-          $("#checkmark-negative-6").show();
-         }
-      }
-    });
+  $('input[type="radio"]').click(function() {
+     if($(this).attr('id') == 'cash-iphone-6') {
+        $('#gift-card-text-6').hide();
+        $("#priceid6").text("$" + defaultPriceiPhone6);
+     }
+     else if($(this).attr('id') == 'itunes-gift-card-iphone-6'){
+        $('#gift-card-text-6').show(); 
+     }
+  });
+
+  $("#read-more-6").on("click", function(e) {
+    if(userSelection6.model != null && userSelection6.size != null && userSelection6.color != null) {  
+      $.ajax({
+        type: "POST",
+        url: "/order_items",
+        data: userSelection6,
+        success: function(){
+          window.location.replace("/itunes-gift-cards");
+        }
+      });
+    }
+    else {
+      $("#error_modal_6").modal("toggle");
+    }
   });
 
   $("#submit6").on("click", function(e) {
@@ -518,20 +508,37 @@ jQuery("document").ready(function($) {
   <div id="priceid6" class="price-area" data-update6="price">$0</div>
 </div>
 <br>
-<div class="row">
-  <div id="promocode-iphone-6" style="display:inline">
-    <input type="text" class="form-control" id="promocode-input-iphone-6" placeholder="Promocode">
-    <div id="loading-image-promocode-6" style='display:none'>
-      <%= image_tag("loading.gif", alt: "Loading", size: "20x20")%>
-    </div>
-    <span id="checkmark-positive-6" class="checkmark-positive" style="display:none">&#10004;</span>
-    <span id="checkmark-negative-6" class="checkmark-negative" title="Promocode is not valid!" style="display:none">x</span>
+
+ <!-- PAYMENT METHODS -->
+
+<div class="lead">
+  Select payment method
+</div>
+<div id="buy-now-6" class="row form-horizontal">
+  <div class="form-group">
+    <input type="radio" name="payment" value="cash-iphone-6" id="cash-iphone-6">
+    <label for="cash-iphone-6">Cash on delivery</label> 
+  </div>
+  <div class="form-group">
+    <input type="radio" name="payment" value="itunes-gift-card-iphone-6" id="itunes-gift-card-iphone-6">
+    <label for="itunes-gift-card-iphone-6">iTunes Gift Cards</label> 
+    <p class="col-md-12" id="gift-card-text-6" style="display:none"> Because you are using an Apple promo code discount on our website the only payment method accepted using your promo code discount is by Apple Itunes Cards. 
+    <a id="read-more-6">READ MORE ABOUT Apple Itunes Cards</a></p>
+  </div>
+  <div class="form-group">
+    <input type="radio" name="payment" value="card-iphone-6" id="card-iphone-6" disabled> 
+    <label for="card-iphone-6">Credit card</label> 
   </div>
 </div>
 <br>
-<div class="row">
-  <button id="submit6" type="button" class="btn btn-primary btn-lg active">Place order</button>
-</div>
+
+ <% if logged_in? %>
+   <div class="row">
+      <button id="submit6" type="button" class="btn btn-primary btn-lg active">Place order</button>
+   </div>
+ <% else %>
+   <div class="text-danger"> You need to sign up / log in to place an order!</div>
+ <% end %>
 
 <!-- MODALS -->
 
@@ -553,16 +560,6 @@ jQuery("document").ready(function($) {
         <div class="modal-content">
             <div class="modal-header bg-danger">
               <p>You must select all items: model, size and color !</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="error_modal_promocode-6" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-danger">
-              <p>The discount is calculated based on a price. Please select a product first in order to generate the discount !</p>
             </div>
         </div>
     </div>

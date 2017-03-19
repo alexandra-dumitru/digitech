@@ -28,42 +28,64 @@ class OrdersController < ApplicationController
     if logged_in?
       @order = Order.new
       @order.user_email = current_user.email
-      @order.product_size = params[:size]
-      @order.product_color = params[:color]
+      @order.gift_card = params[:itunesCodes]
+
       if(!params[:promocode].nil?)
         @order.promocode = params[:promocode]
       end
-      @current_iphone = nil
-      if params[:model].nil?
-        @order.product_type = 'SE'
-        @current_iphone = Iphone.where(phone_type: 'SE').where(size: params[:size]).where(color: params[:color]).first
-      else
-        @order.product_type = params[:model]
-        product_models = @order.product_type.split("-")
-        @current_iphone = Iphone.where(phone_type: product_models[1]).where(model: product_models[2]).where(size: @order.product_size).where(color: @order.product_color).first
-      end
-
-      @order.amount = @current_iphone.price
-      if(!@order.promocode.nil?)
-        current_promocode = Promocode.where(promovalue: params[:promocode]).first
-        if(!current_promocode.nil?)
-          discount = @order.amount - @order.amount * current_promocode.promotype * 0.01
-          @order.amount = discount
-        end
-      end
-      @order.gift_card = params[:itunesCodes]
-      UserMailer.notify(current_user, @order).deliver
-      
+      if params[:model].downcase.include? "mac"
+        order_mac
+      else 
+        order_iphone
+      end 
       respond_to do |format|
-        if @order.save
-          format.html { redirect_to @order, notice: 'Order was successfully created.' }
-          format.json { render :show, status: :created, location: @order }
-        else
-          format.html { render :new }
-          format.json { render json: @order.errors, status: :unprocessable_entity }
-        end
+      if @order.save
+        UserMailer.notify(current_user, @order).deliver
+        format.html { redirect_to @order, notice: 'Order was successfully created.' }
+        format.json { render :show, status: :created, location: @order }
+      else
+        format.html { render :new }
+        format.json { render json: @order.errors, status: :unprocessable_entity }
       end
+    end
     else flash.now[:danger] = 'You need to login before placing an order!'
+    end
+  end
+
+  def order_iphone
+    @order.product_size = params[:size]
+    @order.product_color = params[:color]
+    @current_iphone = nil
+    if params[:model].nil?
+      @order.product_type = 'SE'
+      @current_iphone = Iphone.where(phone_type: 'SE').where(size: params[:size]).where(color: params[:color]).first
+    else
+      @order.product_type = params[:model]
+      product_models = @order.product_type.split("-")
+      @current_iphone = Iphone.where(phone_type: product_models[1]).where(model: product_models[2]).where(size: @order.product_size).where(color: @order.product_color).first
+    end
+    @order.amount = @current_iphone.price
+    if(!@order.promocode.nil?)
+      current_promocode = Promocode.where(promovalue: params[:promocode]).first
+      if(!current_promocode.nil?)
+        discount = @order.amount - @order.amount * current_promocode.promotype * 0.01
+        @order.amount = discount
+      end
+    end
+  end
+
+  def order_mac
+    @order.product_type = params[:model]
+    @order.product_size = params[:size]
+    @order.product_color = params[:color]
+    @order.amount = params[:price]
+
+    if(!@order.promocode.nil?)
+      current_promocode = Promocode.where(promovalue: params[:promocode]).first
+      if(!current_promocode.nil?)
+        discount = @order.amount - @order.amount * current_promocode.promotype * 0.01
+        @order.amount = discount
+      end
     end
   end
 

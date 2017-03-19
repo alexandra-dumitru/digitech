@@ -11,7 +11,9 @@
 
 		console.log(orderData)
 
-	  $("#promocode-input-iphone-7").change(function(){
+	  var discount = 0;
+	  //var discountPrice = 0;
+	  $("#promocode-input").change(function(){
 	    var userInput = $(this).val();
 	    $.ajax({
 	      type: "GET",
@@ -23,12 +25,12 @@
 	            if(key.promovalue == userInput){
 	              check = true;
 	              orderData["promocode"] = key.promovalue;
-	              $('#loading-image-promocode-7').hide();
-	              $("#promocode-input-iphone-7").parent().addClass("has-success").removeClass("has-error");
+	              $('#loading-image-promocode').hide();
+	              $("#promocode-input").parent().addClass("has-success").removeClass("has-error");
 	              if(orderData["price"] != null){
-	                var discount = orderData["price"] - orderData["price"] * (key.promotype * 0.01);
-	                orderData["price"] = discount;
-	                $("#price-iphone-7").text("New price: $" + discount);
+	                discount = orderData["price"] - orderData["price"] * key.promotype * 0.01;
+	                //orderData["price"] = discount;
+	                $("#priceArea").text("New price: $" + discount);
 	              }
 	              else {
 	                $("#error_modal_promocode").modal("toggle");
@@ -36,8 +38,9 @@
 	            }
 	         });
 	         if(check == false) {
-	          $("#promocode-input-iphone-7").parent().addClass("has-error").removeClass("has-success");
+	          $("#promocode-input").parent().addClass("has-error").removeClass("has-success");
 	         }
+	         console.log(orderData)
 	      }
 	    });
 	  });
@@ -99,7 +102,7 @@
 	    }
 	  });
 
-	  $("#submit7-promo-gift").on("click", function(e){
+	  $("#submit-promo-gift").on("click", function(e){
 
 	  	var itunesCodes = [];
 
@@ -142,11 +145,11 @@
     Promocode
   </div>
 
-  <div id="promocode-iphone-7" class="row form-horizontal">
+  <div id="promocode" class="row form-horizontal">
     <div class="col-md-4 col-md-offset-4">
-      <input type="text" class="form-control" id="promocode-input-iphone-7" placeholder="Promocode">
+      <input type="text" class="form-control" id="promocode-input" placeholder="Promocode">
       <br>
-      <div id="price-iphone-7" class="price-area"></div>
+      <div id="priceArea" class="price-area"></div>
     </div>
   </div>
   <br>
@@ -170,9 +173,16 @@
     </div>
   </div>
 
-  <div class="row">
-    <button id="submit7-promo-gift" type="button" class="btn btn-primary btn-lg active">Place order</button>
-  </div>
+
+ <% if logged_in? %>
+   <div class="row">
+   	<div class="col-md-4 col-md-offset-4">
+   		<button id="submit-promo-gift" type="button" class="btn btn-primary form-control active">Place order</button>
+   	</div>
+   </div>
+ <% else %>
+   <div class="text-danger"> You need to sign up / log in to place an order!</div>
+ <% end %>
 
   <div class="modal fade" id="success_modal_promocode" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">

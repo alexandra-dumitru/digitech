@@ -13,10 +13,11 @@
           <div id="iphone7" class="tab-pane fade in active">
             <div class="row">
               <% if Iphone.where(phone_type: '7').exists? %>
+                <% iphone = Iphone.where(phone_type: '7').first %>
                 <div class="col-xs-6 col-md-6">
                   <%= image_tag("iphone7-product.jpg", alt: "iPhone 7")%>
-                  <p> iPhone 7 îmbunătățește dramatic cele mai importante aspecte ale experienței de utilizare iPhone. El introduce cele mai avansate noi camere. Cea mai bună performanță și autonomie a bateriei unui iPhone. Difuzoare stereo care-ți oferă o calitate a sunetului incredibilă. Cel mai luminos, și care redă cele mai multe culori ecran de iPhone. Rezistent la stropi și apă. </p>
-                  <table>
+                  <p id="description-iphone-7"></p>
+                  <table style="display:none">
                     <thead>
                       <tr>
                         <th>ID</th>
@@ -51,12 +52,7 @@
                    </table>
                 </div>
                 <div class="col-xs-6 col-md-4">
-                  <% if logged_in? %>
-                    <%= render :partial => 'iphones/orderform_iphone7', :object => @order %>
-                  <% else %>
-                    <p class="alert alert-danger"> You must log in first! </p>
-                    <%= link_to "Place order", "#", :class => "btn btn-primary disabled" %>
-                  <% end %>
+                  <%= render :partial => 'iphones/orderform_iphone7', :object => @order %>
                 </div>
               <% else %>
                 <p class="not-available"> iPhone 7 is not available at this moment </p>
@@ -68,8 +64,8 @@
             <% if Iphone.where(phone_type: '6').exists? %>
               <div class="col-xs-6 col-md-6">
                   <%= image_tag("iphone6-product.jpg", alt: "iPhone 6")%>
-                  <p> iPhone 6 îmbunătățește dramatic cele mai importante aspecte ale experienței de utilizare iPhone. El introduce cele mai avansate noi camere. Cea mai bună performanță și autonomie a bateriei unui iPhone. Difuzoare stereo care-ți oferă o calitate a sunetului incredibilă. Cel mai luminos, și care redă cele mai multe culori ecran de iPhone. Rezistent la stropi și apă. </p>
-                  <table>
+                  <p id="description-iphone-6"></p>
+                  <table style="display:none">
                     <thead>
                       <tr>
                         <th>iPhone type</th>
@@ -102,12 +98,7 @@
                    </table>
                 </div>
                 <div class="col-xs-6 col-md-4">
-                  <% if logged_in? %>
-                    <%= render :partial => 'iphones/orderform_iphone6', :object => @order %>
-                  <% else %>
-                    <p class="alert alert-danger"> You must log in first! </p>
-                    <%= link_to "Place order", "#", :class => "btn btn-primary disabled" %>
-                  <% end %>
+                  <%= render :partial => 'iphones/orderform_iphone6', :object => @order %>
                 </div>
             <% else %>
                 <p class="not-available"> iPhone 6 is not available at this moment </p>
@@ -119,8 +110,8 @@
             <% if Iphone.where(phone_type: 'SE').exists? %>
               <div class="col-xs-6 col-md-6">
                   <%= image_tag("iphonese-product.jpg", alt: "iPhone SE")%>
-                  <p> iPhone SE îmbunătățește dramatic cele mai importante aspecte ale experienței de utilizare iPhone. El introduce cele mai avansate noi camere. Cea mai bună performanță și autonomie a bateriei unui iPhone. Difuzoare stereo care-ți oferă o calitate a sunetului incredibilă. Cel mai luminos, și care redă cele mai multe culori ecran de iPhone. Rezistent la stropi și apă. </p>
-                  <table>
+                  <p id="description-iphone-SE"></p>
+                  <table style="display:none">
                     <thead>
                       <tr>
                         <th>iPhone type</th>
@@ -153,12 +144,7 @@
                    </table>           
                 </div>
                 <div class="col-xs-6 col-md-4">
-                  <% if logged_in? %>
-                    <%= render :partial => 'iphones/orderform_iphoneSE', :object => @order %>
-                  <% else %>
-                    <p class="alert alert-danger"> You must log in first! </p>
-                    <%= link_to "Place order", "#", :class => "btn btn-primary disabled" %>
-                  <% end %>
+                  <%= render :partial => 'iphones/orderform_iphoneSE', :object => @order %>
                 </div>
             <% else %>
               <p class="not-available"> iPhone SE is not available at this moment </p>

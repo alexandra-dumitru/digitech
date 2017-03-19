@@ -1,8 +1,46 @@
+<% provide(:title, "Mac Products") %>
+
+<div class="center jumbotron products-body" style="background-color: #cccccc">
+<h1>Mac products</h1>
+      <% counter = 0 %>
+      <% @macs.each do |mac| %>
+        <% counter = counter + 1 %>
+        <% if counter % 3 == 0  %>
+          <div class="row"> 
+        <% end %>
+            <div class="col-md-4">
+              <div class="thumbnail">
+                <%= link_to mac do %>
+                  <%= image_tag("macbook_default.jpg", alt: "Macbook default")%>
+                  <div class="caption">
+                    <span><%= mac.mac_type %></span><br>
+                    <span><%= mac.size.to_s %> inch</span><br>
+                    <% case mac.color %>
+                    <% when "pink" %>
+                      <div class="pink-square"></div>
+                    <% when "gold" %>
+                      <div class="gold-square"></div>
+                    <% when "silver" %>
+                      <div class="silver-square"></div>
+                    <% when "black" %>
+                      <div class="black-square"></div>
+                    <% else %>
+                      <div class="silver-square"></div>
+                    <% end %>
+                    <small><%= mac.description %></small><br>
+                    <div class="price-area">$<%= mac.price %></div>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>      
+        </div>  
+</div>
+
+
 <p id="notice"><%= notice %></p>
 
-<h1>Macs</h1>
-
-<table>
+<table style="display:none">
   <thead>
     <tr>
       <th>Type</th>
@@ -32,25 +70,6 @@
 
 <br>
 
+<!--
 <%= link_to 'New Mac', new_mac_path %>
-
-<% provide(:title, "Mac Products") %>
-
-<div class="center jumbotron products-body" style="background-color: #cccccc">
-  <div class="row">
-    
-      <% @macs.each do |mac| %>
-        <div class="col-md-4">
-          <div class="thumbnail">
-            <%= link_to mac do %>
-              <%= image_tag("macbook_default.jpg", alt: "Macbook default")%>
-              <div class="caption">
-                <%= mac.mac_type + " " + mac.size.to_s + " " + mac.color + " " + mac.description %>
-              </div>
-            <% end %>
-          </div>
-          </div>
-      <% end %>  
-    
-  </div>
-</div>
+-->
