@@ -9,15 +9,17 @@
       Thank you for your purchase of the following product:
     </p>
     <p>Product type: <%= @order.product_type %></p>
-    <p>Product size: <%= @order.product_size %> GB</p>
+    
+    <% if @order.product_type.include? "iphone" %>
+      <p>Product size: <%= @order.product_size %> GB</p>
+    <% elsif @order.product_type.include? "mac" %>
+      <p>Product size: <%= @order.product_size %> inch</p>
+    <% end %>
+    
     <p>Product color: <%= @order.product_color %></p>
     <p>Price: $<%= @order.amount %></p>
-    <% if !@order.promocode.nil? %>
-      <p>Promocode used: <%= @order.promocode %></p>
-    <% end %>
-    <% if !@order.gift_card.nil? %>
-      <p>iTunes gift card codes used: <%= @order.gift_card %></p>
-    <% end %>
     <br>
+    <%= link_to "Click here", @url_read_more %> to read more about iTunes Gift Cards <br>
+    <%= link_to "Click here", @url_complete_payment %> to complete payment
   </body>
 </html>

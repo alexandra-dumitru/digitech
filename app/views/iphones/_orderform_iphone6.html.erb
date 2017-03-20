@@ -88,11 +88,14 @@ jQuery("document").ready(function($) {
         $('#gift-card-text-6').hide();
         $("#priceid6").text("$" + defaultPriceiPhone6);
      }
+     /*
      else if($(this).attr('id') == 'itunes-gift-card-iphone-6'){
         $('#gift-card-text-6').show(); 
      }
+     */
   });
 
+/*
   $("#read-more-6").on("click", function(e) {
     if(userSelection6.model != null && userSelection6.size != null && userSelection6.color != null) {  
       $.ajax({
@@ -108,6 +111,7 @@ jQuery("document").ready(function($) {
       $("#error_modal_6").modal("toggle");
     }
   });
+  */
 
   $("#submit6").on("click", function(e) {
     if(userSelection6.model != null && userSelection6.size != null && userSelection6.color != null) {
@@ -516,14 +520,8 @@ jQuery("document").ready(function($) {
 </div>
 <div id="buy-now-6" class="row form-horizontal">
   <div class="form-group">
-    <input type="radio" name="payment" value="cash-iphone-6" id="cash-iphone-6">
+    <input type="radio" name="payment" value="cash-iphone-6" id="cash-iphone-6" checked>
     <label for="cash-iphone-6">Cash on delivery</label> 
-  </div>
-  <div class="form-group">
-    <input type="radio" name="payment" value="itunes-gift-card-iphone-6" id="itunes-gift-card-iphone-6">
-    <label for="itunes-gift-card-iphone-6">iTunes Gift Cards</label> 
-    <p class="col-md-12" id="gift-card-text-6" style="display:none"> Because you are using an Apple promo code discount on our website the only payment method accepted using your promo code discount is by Apple Itunes Cards. 
-    <a id="read-more-6">READ MORE ABOUT Apple Itunes Cards</a></p>
   </div>
   <div class="form-group">
     <input type="radio" name="payment" value="card-iphone-6" id="card-iphone-6" disabled> 

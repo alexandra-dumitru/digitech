@@ -1,18 +1,23 @@
 <script>
 	jQuery("document").ready(function($) {
-		var orderData = {
-			model: "<%= session[:model] %>",
-			size: "<%= session[:size] %>",
-			color: "<%= session[:color] %>",
-			price: "<%= session[:price] %>",
-			promocode: null,
-			itunesCodes: ""
-		}
+
+		<% current_order = Order.find_by(id: params[:confirm]) %>
+		<% if current_user.email == current_order.user_email %>
+			var orderData = {
+				model: "<%= current_order.product_type %>",
+				size: "<%= current_order.product_size %>",
+				color: "<%= current_order.product_color %>",
+				price: "<%= current_order.amount %>",
+				promocode: null,
+				itunesCodes: ""
+			}
+		<% else %>
+			<%= link_to login_path %>
+		<% end %>
 
 		console.log(orderData)
 
 	  var discount = 0;
-	  //var discountPrice = 0;
 	  $("#promocode-input").change(function(){
 	    var userInput = $(this).val();
 	    $.ajax({
@@ -135,7 +140,7 @@
 
 
 <div class="jumbotron center">
-<h1>Order data: <%= session[:model] + " " + session[:size] + " " + session[:color] + " " + session[:price]%></h1>
+<h1>Order data: <%= current_order.product_type + " " + current_order.product_size.to_s + " " + current_order.product_color + " " + current_order.amount.to_s%></h1>
 <br>
 
 
@@ -191,7 +196,7 @@
               <p>Thank you for your order !</p>
             </div>
             <div class="modal-body bg-success">
-              <p>An email was sent to your inbox to finalize the process.</p>
+              <p>You will be contacted soon for product delivery details</p>
             </div>
         </div>
     </div>

@@ -4,7 +4,8 @@ class UserMailer < ApplicationMailer
 	def notify(user, order)
 		@user = user
 		@order = order
-		@url = 'http://localhost:3000/home.html'
+		@url_read_more = 'http://localhost:3000/itunes-gift-cards?confirm=' + @order.id.to_s
+		@url_complete_payment = 'http://localhost:3000/complete-payment?confirm=' + @order.id.to_s
 		mail(to: @user.email, subject: "Thank you for your order")
 	end
 end
