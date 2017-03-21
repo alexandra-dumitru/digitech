@@ -47,6 +47,10 @@ console.log(macSelection)
         }
       });
   	});
+
+  $("#signup_mac").on("click", function(e){
+    window.location.replace("/signup");
+  });
 })
 	
 
@@ -81,7 +85,7 @@ console.log(macSelection)
       <button id="submitMac" type="button" class="btn btn-primary btn-lg active">Place order</button>
    </div>
  <% else %>
-   <div class="text-danger"> You need to sign up / log in to place an order!</div>
+   <button id="signup_mac" type="button" class="btn btn-primary btn-lg active">Place order</button>
  <% end %>
 
 <!-- MODALS -->

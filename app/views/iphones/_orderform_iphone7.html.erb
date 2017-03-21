@@ -128,6 +128,11 @@ jQuery("document").ready(function($) {
       $("#error_modal").modal("toggle");
     }
   });
+
+  $("#signup_iphone_7").on("click", function(e){
+    window.location.replace("/signup");
+  });
+
 }); //document ready end
 </script>
 
@@ -531,7 +536,7 @@ jQuery("document").ready(function($) {
       <button id="submit7" type="button" class="btn btn-primary btn-lg active">Place order</button>
    </div>
  <% else %>
-   <div class="text-danger"> You need to sign up / log in to place an order!</div>
+   <button id="signup_iphone_7" type="button" class="btn btn-primary btn-lg active">Place order</button>
  <% end %>
 
 <!-- MODALS -->

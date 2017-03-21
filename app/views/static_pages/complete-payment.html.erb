@@ -9,7 +9,8 @@
 				color: "<%= current_order.product_color %>",
 				price: "<%= current_order.amount %>",
 				promocode: null,
-				gift_card: ""
+				gift_card: "",
+				address: null
 			}
 		<% else %>
 			<%= link_to login_path %>
@@ -107,7 +108,14 @@
 	    }
 	  });
 
+
+	  //BILING ADDRESS
+
 	  $("#submit-promo-gift").on("click", function(e){
+	  	$("#show_address_form").show();
+	  })
+
+	  $("#submit-final-order").on("click", function(e){
 
 	  	var gift_card = [];
 
@@ -117,6 +125,14 @@
 		});
 
 		orderData.gift_card = gift_card.toString();
+
+		if($("#country").val() != "" && $("#city").val() != "" && $("#address_input").val() != ""){
+			orderData.address = $("#country").val() + "," + $("#city").val() + "," + $("#address").val();
+		}
+		else {
+			$("#error_modal_address").modal("toggle");
+		}
+		console.log(orderData)
 		var putURL = "/orders/" + "<%= current_order.id %>"
 
 	  	$.ajax({
@@ -143,7 +159,7 @@
 
 
 <div class="jumbotron center">
-<h1>Order data: <%= current_order.product_type + " " + current_order.product_size.to_s + " " + current_order.product_color + " " + current_order.amount.to_s%></h1>
+<h3>Your order: <%= current_order.product_type + " " + current_order.product_size.to_s + " " + current_order.product_color + " " + current_order.amount.to_s%></h3>
 <br>
 
 
@@ -181,16 +197,61 @@
     </div>
   </div>
 
-
  <% if logged_in? %>
    <div class="row">
    	<div class="col-md-4 col-md-offset-4">
-   		<button id="submit-promo-gift" type="button" class="btn btn-primary form-control active">Place order</button>
+   		<button id="submit-promo-gift" type="button" class="btn btn-warning form-control">Place order</button>
    	</div>
    </div>
  <% else %>
    <div class="text-danger"> You need to sign up / log in to place an order!</div>
  <% end %>
+<br><br>
+
+<div id="show_address_form" style="display:none">
+  <div class="lead">
+    Add billing address
+  </div>
+
+ <div class="row form-horizontal">
+ 	<div class="col-md-1 col-md-offset-1">
+ 		<label for="country">Country</label>
+ 	</div>
+ 	<div class="col-md-2">
+ 		<input type="text" id="country" class="form-control">
+ 	</div>
+
+ 	<div class="col-md-1">
+ 		<label for="city">City</label>
+ 	</div>
+ 	<div class="col-md-2">
+ 		<input type="text" id="city" class="form-control">	
+ 	</div>  
+
+ 	<div class="col-md-2">
+ 		<label for="city">Phone number</label>
+ 	</div>
+ 	<div class="col-md-2">
+ 		<input type="text" id="city" class="form-control">	
+ 	</div>  	 
+ </div>
+
+ <div class="row form-horizontal">
+ 	<div class="col-md-1 col-md-offset-1">
+		<label for="address_input">Address</label>
+ 	</div>
+ 	<div class="col-md-9">
+ 		<input type="text" id="address_input" class="form-control">
+ 	</div>
+ </div>
+
+ <div class="row form-horizontal">
+ 	<div class="col-md-4 col-md-offset-4">
+ 		<button id="submit-final-order" type="button" class="btn btn-primary form-control active">Finalize order</button>
+ 	</div>
+ </div>	
+</div>
+
 
   <div class="modal fade" id="success_modal_promocode" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -210,6 +271,16 @@
         <div class="modal-content">
             <div class="modal-header bg-danger">
               <p>Something went wrong! Please try again!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+ <div class="modal fade" id="error_modal_address" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+              <p>Please fill all billing address information!</p>
             </div>
         </div>
     </div>

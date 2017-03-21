@@ -46,6 +46,10 @@ console.log(watchSelection)
         }
       });
   	});
+
+  $("#signup_watch").on("click", function(e){
+    window.location.replace("/signup");
+  });
 })
 	
 
@@ -80,7 +84,7 @@ console.log(watchSelection)
       <button id="submitwatch" type="button" class="btn btn-primary btn-lg active">Place order</button>
    </div>
  <% else %>
-   <div class="text-danger"> You need to sign up / log in to place an order!</div>
+   <button id="signup_watch" type="button" class="btn btn-primary btn-lg active">Place order</button>
  <% end %>
 
 <!-- MODALS -->
