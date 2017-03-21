@@ -5,6 +5,7 @@
 <table>
   <thead>
     <tr>
+      <th>Order ID</th>
       <th>User email</th>
       <th>Product type</th>
       <th>Product size</th>
@@ -20,6 +21,7 @@
   <tbody>
     <% @orders.each do |order| %>
       <tr>
+        <td><%= order.id %></td>
         <td><%= order.user_email %></td>
         <td><%= order.product_type %></td>
         <td><%= order.product_size %></td>

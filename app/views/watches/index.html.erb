@@ -1,6 +1,4 @@
-
-
-<h1>Watches</h1>
+<h1>Watch products</h1>
 
 <% provide(:title, "Watch Products") %>
 
@@ -16,8 +14,9 @@
             <div class="col-md-4">
               <div class="thumbnail">
                 <%= link_to watch do %>
-                  <%= image_tag("watch.jpg", alt: "watchbook default")%>
+                  <%= image_tag("watch.jpg", alt: "Apple watch")%>
                   <div class="caption">
+                    <span><strong><%= watch.watch_type %></strong></span><br>
                     <span><%= watch.description %></span><br>
                     <% case watch.color %>
                     <% when "pink" %>
@@ -28,7 +27,7 @@
                       <div class="silver-square"></div>
                     <% when "black" %>
                       <div class="watch-black-square"></div>
-                    <% else %>
+                    <% when "white" %>
                       <div class="white-square"></div>
                     <% end %>
                     <div class="price-area">$<%= watch.price %></div>
@@ -40,9 +39,10 @@
       </div> 
 </div>
 
-<table>
+<table stye="display:none">
   <thead>
     <tr>
+      <th>Watch Type</th>
       <th>Description</th>
       <th>Color</th>
       <th>Price</th>
@@ -53,6 +53,7 @@
   <tbody>
     <% @watches.each do |watch| %>
       <tr>
+        <td><%= watch.watch_type %></td>
         <td><%= watch.description %></td>
         <td><%= watch.color %></td>
         <td><%= watch.price %></td>

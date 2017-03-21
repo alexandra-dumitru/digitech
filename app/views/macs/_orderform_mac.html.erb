@@ -7,7 +7,7 @@ jQuery("document").ready(function($){
     price: "<%= @mac.price %>"
   }
 
-  $('input[type="radio"]').click(function() {
+  /*$('input[type="radio"]').click(function() {
      if($(this).attr('id') == 'cash-mac') {
         $('#gift-card-text-mac').hide();
      }
@@ -15,9 +15,9 @@ jQuery("document").ready(function($){
      else if($(this).attr('id') == 'itunes-gift-card-mac'){
         $('#gift-card-text-mac').show(); 
      }
-  });
+  });*/
 
-  $("#read-more-mac").on("click", function(e) {
+  /*$("#read-more-mac").on("click", function(e) {
     if(macSelection.model != null && macSelection.size != null && macSelection.color != null) {  
       $.ajax({
         type: "POST",
@@ -31,7 +31,7 @@ jQuery("document").ready(function($){
     else {
       $("#error_modal_mac").modal("toggle");
     }
-  });
+  });*/
 console.log(macSelection)
 	$("#submitMac").on("click", function(e) {
     	$.ajax({
@@ -66,14 +66,8 @@ console.log(macSelection)
 </div>
 <div id="buy-now-mac" class="row form-horizontal">
   <div class="form-group">
-    <input type="radio" name="payment" value="cash-mac" id="cash-mac">
+    <input type="radio" name="payment" value="cash-mac" id="cash-mac" checked>
     <label for="cash-mac">Cash on delivery</label> 
-  </div>
-  <div class="form-group">
-    <input type="radio" name="payment" value="itunes-gift-card-mac" id="itunes-gift-card-mac">
-    <label for="itunes-gift-card-mac">iTunes Gift Cards</label> 
-    <p class="col-md-12" id="gift-card-text-mac" style="display:none"> Because you are using an Apple promo code discount on our website the only payment method accepted using your promo code discount is by Apple Itunes Cards. 
-    <a id="read-more-mac">READ MORE ABOUT Apple Itunes Cards</a></p>
   </div>
   <div class="form-group">
     <input type="radio" name="payment" value="card-mac" id="card-mac" disabled> 

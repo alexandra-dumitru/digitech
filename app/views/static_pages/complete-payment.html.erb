@@ -9,7 +9,7 @@
 				color: "<%= current_order.product_color %>",
 				price: "<%= current_order.amount %>",
 				promocode: null,
-				itunesCodes: ""
+				gift_card: ""
 			}
 		<% else %>
 			<%= link_to login_path %>
@@ -109,24 +109,27 @@
 
 	  $("#submit-promo-gift").on("click", function(e){
 
-	  	var itunesCodes = [];
+	  	var gift_card = [];
 
 		appendFields.find("input").each(function(e) {
 
-			itunesCodes.push(this.value);
+			gift_card.push(this.value);
 		});
 
-		orderData.itunesCodes = itunesCodes.toString();
+		orderData.gift_card = gift_card.toString();
+		var putURL = "/orders/" + "<%= current_order.id %>"
 
 	  	$.ajax({
-        	type: "POST",
-        	url: "/orders",
-        	dataType: "json",
-        	data: orderData,
+        	type: "PUT",
+        	url: putURL,
+        	data: {
+        		order: orderData	
+        	},
         	success: function(){
 	         	$("#success_modal_promocode").modal("toggle");
 	          	$("#success_modal_promocode").on('hidden.bs.modal', function() {
 	            	window.location.replace("/home");
+	            	console.log(orderData)
           	});
         	},
         	error: function() {

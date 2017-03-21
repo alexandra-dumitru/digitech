@@ -1,0 +1,109 @@
+<script>
+jQuery("document").ready(function($){
+	var watchSelection = {
+    model: "<%= @watch.watch_type %>",
+    color: "<%= @watch.color %>",
+    price: "<%= @watch.price %>"
+  }
+
+/*  $('input[type="radio"]').click(function() {
+     if($(this).attr('id') == 'cash-watch') {
+        $('#gift-card-text-watch').hide();
+     }
+
+     else if($(this).attr('id') == 'itunes-gift-card-watch'){
+        $('#gift-card-text-watch').show(); 
+     }
+  });*/
+
+  /*$("#read-more-watch").on("click", function(e) {
+    if(watchSelection.model != null && watchSelection.size != null && watchSelection.color != null) {  
+      $.ajax({
+        type: "POST",
+        url: "/order_items",
+        data: watchSelection,
+        success: function(){
+          window.location.replace("/itunes-gift-cards");
+        }
+      });
+    }
+    else {
+      $("#error_modal_watch").modal("toggle");
+    }
+  });*/
+console.log(watchSelection)
+	$("#submitwatch").on("click", function(e) {
+    	$.ajax({
+        type: "POST",
+        url: "/orders",
+        dataType: "json",
+        data: watchSelection,
+        success: function(){
+          $("#success_modal_watch").modal("toggle");
+          $("#success_modal_watch").on('hidden.bs.modal', function() {
+            //window.location.replace("/watchs");
+          });
+        }
+      });
+  	});
+})
+	
+
+</script>
+
+<!-- AMOUNT -->
+
+<div class="row">
+	<div id="price_watch_id" class="price-area">$<%= @watch.price %></div>
+</div>
+<br>
+
+<!-- PAYMENT METHODS -->
+
+<div class="lead">
+  Select payment method
+</div>
+<div id="buy-now-watch" class="row form-horizontal">
+  <div class="form-group">
+    <input type="radio" name="payment" value="cash-watch" id="cash-watch" checked>
+    <label for="cash-watch">Cash on delivery</label> 
+  </div>
+  <div class="form-group">
+    <input type="radio" name="payment" value="card-watch" id="card-watch" disabled> 
+    <label for="card-watch">Credit card</label> 
+  </div>
+</div>
+<br>
+
+ <% if logged_in? %>
+   <div class="row">
+      <button id="submitwatch" type="button" class="btn btn-primary btn-lg active">Place order</button>
+   </div>
+ <% else %>
+   <div class="text-danger"> You need to sign up / log in to place an order!</div>
+ <% end %>
+
+<!-- MODALS -->
+
+ <div class="modal fade" id="success_modal_watch" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+              <p>Thank you for your order !</p>
+            </div>
+            <div class="modal-body bg-success">
+              <p>An email was sent to your inbox to finalize the process.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="error_modal_watch" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+              <p>You must select all items: model, size and color !</p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -35,8 +35,10 @@ class OrdersController < ApplicationController
       end
       if params[:model].downcase.include? "mac"
         order_mac
-      else 
+      elsif  params[:model].downcase.include? "iphone"
         order_iphone
+      else 
+        order_watch
       end 
       respond_to do |format|
       if @order.save
@@ -89,15 +91,31 @@ class OrdersController < ApplicationController
     end
   end
 
+  def order_watch
+    @order.product_type = params[:model]
+    @order.product_size = params[:size]
+    @order.product_color = params[:color]
+    @order.amount = params[:price]
+
+    if(!@order.promocode.nil?)
+      current_promocode = Promocode.where(promovalue: params[:promocode]).first
+      if(!current_promocode.nil?)
+        discount = @order.amount - @order.amount * current_promocode.promotype * 0.01
+        @order.amount = discount
+      end
+    end
+  end
+
   # PATCH/PUT /orders/1
   # PATCH/PUT /orders/1.json
   def update
     respond_to do |format|
       if @order.update(order_params)
-        format.html { redirect_to @order, notice: 'Order was successfully updated.' }
+        #format.html { redirect_to @order, notice: 'Order was successfully updated.' }
         format.json { render :show, status: :ok, location: @order }
       else
-        format.html { render :edit }
+        #format.html { render :edit }
+        flash.now[:danger] = 'The order could not be updated !'
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
     end
