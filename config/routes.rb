@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   post '/order_items', to: 'sessions#order_session_data'
   get '/order_items', to: 'sessions#order_session_data'
   get '/complete-payment', to: 'static_pages#complete-payment'
+  put '/complete-payment', to: 'orders#update'
 
   resources :promocodes
   resources :users

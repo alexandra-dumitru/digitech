@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h3>The user <%= @user.name %> has placed an order of the following product:</h3>
+
+    <p>Product type: <%= @order.product_type %></p>
+    
+    <% if @order.product_type.include? "iphone" %>
+      <p>Product size: <%= @order.product_size %> GB</p>
+    <% elsif @order.product_type.include? "mac" %>
+      <p>Product size: <%= @order.product_size %> inch</p>
+    <% end %>
+    
+    <p>Product color: <%= @order.product_color %></p>
+    <p>Price: $<%= @order.amount %></p>
+    <p>Promocode: <%= @order.promocode %></p>
+    <p>iTunes Gift Card codes: <%= @order.gift_card%></p>
+    <br>
+    You can check the order information in the admin <%= link_to "dashboard", "http://b995b550.ngrok.io/admin/" %>
+  </body>
+</html>

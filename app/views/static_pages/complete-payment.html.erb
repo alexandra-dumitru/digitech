@@ -126,16 +126,11 @@
 
 		orderData.gift_card = gift_card.toString();
 
-		if($("#country").val() != "" && $("#city").val() != "" && $("#address_input").val() != ""){
-			orderData.address = $("#country").val() + "," + $("#city").val() + "," + $("#address").val();
-		}
-		else {
-			$("#error_modal_address").modal("toggle");
-		}
-		console.log(orderData)
 		var putURL = "/orders/" + "<%= current_order.id %>"
 
-	  	$.ajax({
+		if($("#country").val() != "" && $("#city").val() != "" && $("#address_input").val() != ""){
+			orderData.address = $("#country").val() + "," + $("#city").val() + "," + $("#address").val();
+			$.ajax({
         	type: "PUT",
         	url: putURL,
         	data: {
@@ -152,6 +147,11 @@
         		$("#error_modal_promocode").modal("toggle");
         	}
       	});
+		}
+		else {
+			$("#error_modal_address").modal("toggle");
+		}
+		console.log(orderData)
 	  });
 
 	}); // document ready end
