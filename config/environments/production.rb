@@ -63,10 +63,8 @@ Rails.application.configure do
     domain: 'digitech-app.com',   
     user_name: ENV["email_user_name"],   
     password: ENV["email_password"],   
-    authentication: 'plain',   
-    enable_starttls_auto: true,
-    ssl: true,
-    tls: true 
+    authentication: 'login',   
+    enable_starttls_auto: true
   }
 
 
