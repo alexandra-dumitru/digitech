@@ -58,13 +58,15 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
   config.action_mailer.delivery_method = :smtp 
   config.action_mailer.smtp_settings = {   
-    address: 'server183.web-hosting.com',   
+    address: 'smtp.gmail.com',   
     port: 465,   
-    domain: 'server183.web-hosting.com',   
-    user_name: 'office@digitech-app.com',   
-    password:  'luigi@digitech123',   
+    domain: 'digitech-app.com',   
+    user_name: ENV["email_user_name"],   
+    password: ENV["email_password"],   
     authentication: 'plain',   
-    enable_starttls_auto: true  
+    enable_starttls_auto: true,
+    ssl: true,
+    tls: true 
   }
 
 
