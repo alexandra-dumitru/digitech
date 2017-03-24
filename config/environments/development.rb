@@ -40,6 +40,17 @@ Rails.application.configure do
   # number of complex assets.
   config.assets.debug = true
 
+  ActionMailer::Base.smtp_settings = {
+  :user_name =>  ENV["SENDGRID_EMAIL"],
+  :password =>  ENV["SENDGRID_PASSWORD"],
+  :domain => 'digitech-app.com',
+  :address => 'smtp.sendgrid.net',
+  :port => 587,
+  :authentication => :plain,
+  :enable_starttls_auto => true
+}
+
+
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
