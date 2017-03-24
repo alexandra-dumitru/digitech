@@ -160,6 +160,7 @@
 
 <div class="jumbotron center">
 <h3>Your order: <%= current_order.product_type + " " + current_order.product_size.to_s + " " + current_order.product_color + " " + current_order.amount.to_s%></h3>
+<h4>Because you are using an Apple promo code discount on our website the only payment method accepted using your promo code discount is by Apple Itunes Cards. <a href="http://localhost:3000/itunes-gift-cards?confirm=<%= params[:confirm] %>">READ MORE ABOUT Apple Itunes Cards</a></h4>
 <br>
 
 

@@ -49,15 +49,20 @@ Rails.application.configure do
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
 
-  ActionMailer::Base.smtp_settings = {
-  :user_name =>  ENV["SENDGRID_EMAIL"],
-  :password =>  ENV["SENDGRID_PASSWORD"],
-  :domain => 'digitech-app.com',
-  :address => 'smtp.sendgrid.net',
-  :port => 587,
-  :authentication => :plain,
-  :enable_starttls_auto => true
-}
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.default_url_options = {:host => 'wwww.digitech-app.com'}
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :user_name =>  'office@digitech-app.com',
+    :password =>  'luigi@digitech123',
+    :domain => 'digitech-app.com',
+    :address => 'server1.digitech-app.com',
+    :port => 587,
+    :authentication => :plain,
+    :enable_starttls_auto => true
+  }
+
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
