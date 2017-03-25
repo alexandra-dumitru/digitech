@@ -4,14 +4,14 @@ class UserMailer < ApplicationMailer
 	def notify(user, order)
 		@user = user
 		@order = order
-		@url_read_more = 'http://localhost:3000/itunes-gift-cards?confirm=' + @order.id.to_s
-		@url_complete_payment = 'http://localhost:3000/complete-payment?confirm=' + @order.id.to_s
+		@url_read_more = 'http://mighty-tundra-38848.herokuapp.com/itunes-gift-cards?confirm=' + @order.id.to_s
+		@url_complete_payment = 'http://mighty-tundra-38848.herokuapp.com/complete-payment?confirm=' + @order.id.to_s
 		mail(to: @user.email, subject: "Thank you for your order")
 	end
 
 	def account_activation(user)
 		@user = user
-		@url = 'http://localhost:3000/home?activate=' + @user.
+		@url = 'http://mighty-tundra-38848.herokuapp.com/home?activate=' + @user.
 		mail(to: @user.email, subject: "Account activation")
 	end
 
