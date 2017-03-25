@@ -18,6 +18,8 @@ Rails.application.routes.draw do
   get '/order_items', to: 'sessions#order_session_data'
   get '/complete-payment', to: 'static_pages#complete-payment'
   put '/complete-payment', to: 'orders#update'
+  get '/validate_promocode', to: 'promocodes#validate_promocode'
+  post '/validate_promocode', to: 'promocodes#validate_promocode'
 
   resources :promocodes
   resources :users
@@ -25,5 +27,6 @@ Rails.application.routes.draw do
   resources :macs
   resources :iphones
   resources :orders
+  resources :account_activations, only: [:edit]
   
 end

@@ -21,7 +21,22 @@
 	  var discount = 0;
 	  $("#promocode-input").change(function(){
 	    var userInput = $(this).val();
-	    $.ajax({
+	    orderData.promocode = userInput;
+	    var discount = 0;
+
+	     $.ajax({
+	    	type: "POST",
+	    	url: "/validate_promocode",
+	    	dataType: "json",
+	    	data: orderData,
+	    	success: function(data){
+	    		console.log(data);
+	    		discount = orderData["price"] - orderData["price"] * data.promotype * 0.01;
+	    		$("#priceArea").text("New price: $" + discount);
+	    	}
+	    });
+
+	    /*$.ajax({
 	      type: "GET",
 	      url: "/promocodes",
 	      dataType: "json",
@@ -35,7 +50,6 @@
 	              $("#promocode-input").parent().addClass("has-success").removeClass("has-error");
 	              if(orderData["price"] != null){
 	                discount = orderData["price"] - orderData["price"] * key.promotype * 0.01;
-	                //orderData["price"] = discount;
 	                $("#priceArea").text("New price: $" + discount);
 	              }
 	              else {
@@ -48,7 +62,7 @@
 	         }
 	         console.log(orderData)
 	      }
-	    });
+	    });*/
 	  });
 
 	  var nextInput = 1;
@@ -139,7 +153,7 @@
         	success: function(){
 	         	$("#success_modal_promocode").modal("toggle");
 	          	$("#success_modal_promocode").on('hidden.bs.modal', function() {
-	            	window.location.replace("/home");
+	            	//window.location.replace("/home");
 	            	console.log(orderData)
           	});
         	},
