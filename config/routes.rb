@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'password_resets/new'
+
+  get 'password_resets/edit'
+
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   resources :orders
   get 'sessions/new'
@@ -28,5 +32,6 @@ Rails.application.routes.draw do
   resources :iphones
   resources :orders
   resources :account_activations, only: [:edit]
+  resources :password_resets,     only: [:new, :create, :edit, :update]
   
 end

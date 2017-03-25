@@ -50,7 +50,7 @@ Rails.application.configure do
   config.log_tags = [ :request_id ]
 
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.default_url_options = {:host => 'wwww.digitech-app.com', :protocol => 'https'}
+  config.action_mailer.default_url_options = {:host => 'wwww.digitech-app.com'}
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
