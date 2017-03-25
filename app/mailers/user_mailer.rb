@@ -11,7 +11,6 @@ class UserMailer < ApplicationMailer
 
 	def account_activation(user)
 		@user = user
-		@url = 'http://mighty-tundra-38848.herokuapp.com/home?activate=' + @user.
 		mail(to: @user.email, subject: "Account activation")
 	end
 
