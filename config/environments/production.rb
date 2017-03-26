@@ -49,19 +49,22 @@ Rails.application.configure do
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
 
-  config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.default_url_options = {:host => 'mighty-tundra-38848.herokuapp.com'}
+  config.action_mailer.delivery_method   = :postmark
+  config.action_mailer.postmark_settings = { :api_token => ENV['POSTMARK_API_TOKEN'] }
 
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    :user_name => "office@digitech-app.com",
-    :password => "luigi@digitech123",
-    :domain => 'digitech-app.com',
-    :address => '199.193.6.145',
-    :port => 587,
-    :authentication => :plain,
-    :enable_starttls_auto => true
-  }
+ # config.action_mailer.raise_delivery_errors = true
+ # config.action_mailer.default_url_options = {:host => 'mighty-tundra-38848.herokuapp.com'}
+
+ # config.action_mailer.delivery_method = :smtp
+ # config.action_mailer.smtp_settings = {
+ #   :user_name => "office@digitech-app.com",
+ #   :password => "luigi@digitech123",
+ #   :domain => 'digitech-app.com',
+ #   :address => '199.193.6.145',
+ #   :port => 587,
+ #   :authentication => :plain,
+ #   :enable_starttls_auto => true
+ # }
 
 
   # Use a different cache store in production.

@@ -40,21 +40,23 @@ Rails.application.configure do
   # number of complex assets.
   config.assets.debug = true
 
-  config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.default_url_options = {:host => 'localhost:3000'}
-
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    :user_name =>  ENV["SENDGRID_EMAIL"],
-    :password =>  ENV["SENDGRID_PASSWORD"],
-    :domain => 'digitech-app.com',
-    :address => 'smtp.sendgrid.net',
-    :port => 587,
-    :authentication => :plain,
-    :enable_starttls_auto => true
-  }
+  config.action_mailer.delivery_method   = :postmark
+  config.action_mailer.postmark_settings = { :api_token => ENV['POSTMARK_API_TOKEN'] }
 
 
+ # config.action_mailer.raise_delivery_errors = true
+ # config.action_mailer.default_url_options = {:host => 'localhost:3000'}
+
+ # config.action_mailer.delivery_method = :smtp
+ # config.action_mailer.smtp_settings = {
+ #   :user_name =>  ENV["SENDGRID_EMAIL"],
+ #   :password =>  ENV["SENDGRID_PASSWORD"],
+ #   :domain => 'digitech-app.com',
+ #   :address => 'smtp.sendgrid.net',
+ #   :port => 587,
+ #   :authentication => :plain,
+ #   :enable_starttls_auto => true
+ # }
 
   # Suppress logger output for asset requests.
   config.assets.quiet = true

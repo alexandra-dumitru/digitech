@@ -1,5 +1,5 @@
 class UserMailer < ApplicationMailer
-	default from: 'office@digitech-app.com'
+	default from: 'digitechappoffice@gmail.com'
 	
 	def notify(user, order)
 		@user = user

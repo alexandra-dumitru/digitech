@@ -1,3 +1,3 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'office@digitech-app.com'
+  default from: 'digitechappoffice@gmail.com'
 end

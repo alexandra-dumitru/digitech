@@ -38,4 +38,58 @@ RailsAdmin.config do |config|
     # history_index
     # history_show
   end
+
+  config.model Iphone do
+    field :phone_type do 
+      label "Type"
+    end
+    field :model do
+      label "Model"
+    end
+    field :size do
+      label "Size (GB)"
+    end
+    field :color do 
+      label "Color"
+    end
+    field :description do 
+      label "Description"
+    end
+    field :price do 
+      label "Price ($)"
+    end
+  end
+
+  config.model Mac do
+    field :mac_type do 
+      label "Type"
+    end
+    field :size do
+      label "Size (inch)"
+    end
+    field :color do 
+      label "Color"
+    end
+    field :description do 
+      label "Description"
+    end
+    field :price do 
+      label "Price ($)"
+    end
+  end
+
+  config.model Watch do
+    field :watch_type do 
+      label "Type"
+    end
+    field :color do 
+      label "Color"
+    end
+    field :description do 
+      label "Description"
+    end
+    field :price do 
+      label "Price ($)"
+    end
+  end
 end

@@ -79,6 +79,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (5.0.5)
       railties (>= 3.2.16)
+    json (1.8.3)
     kaminari (0.17.0)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -104,6 +105,12 @@ GEM
       mini_portile2 (~> 2.1.0)
     pg (0.20.0)
     pg (0.20.0-x86-mingw32)
+    postmark (1.10.0)
+      json
+      rake
+    postmark-rails (0.15.0)
+      actionmailer (>= 3.0.0)
+      postmark (~> 1.10.0)
     puma (3.7.1)
     rack (2.0.1)
     rack-pjax (1.0.0)
@@ -208,7 +215,10 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   jquery-rails
   listen (~> 3.0.5)
+  mail
   pg
+  postmark
+  postmark-rails (>= 0.10.0)
   puma (~> 3.0)
   rails (~> 5.0.1)
   rails_admin (~> 1.1.1)

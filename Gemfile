@@ -35,6 +35,9 @@ gem 'bootstrap-sass', '3.3.6'
 gem 'figaro'
 gem 'pg'
 gem 'sendgrid-ruby'
+gem 'mail'
+gem 'postmark'
+gem 'postmark-rails', '>= 0.10.0'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

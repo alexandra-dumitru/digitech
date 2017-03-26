@@ -239,6 +239,8 @@ jQuery("document").ready(function($) {
       <% isSilver32 = false %>
       <% isGold32 = false %>
       <% isBlack32 = false %>
+      <% isJetBlack32 = false %>
+      <% isRed32 = false %>
 
       <% Iphone.where(phone_type: '7').where(model: 'normal').where(size: 32).each do |iphone| %>
         <% if !iphone.nil? %>
@@ -256,6 +258,14 @@ jQuery("document").ready(function($) {
 
           <% if iphone.color == 'black' %>
             <% isBlack32 = true %>
+          <% end %>
+
+          <% if iphone.color == 'jetblack' %>
+            <% isJetBlack32 = true %>
+          <% end %>
+
+          <% if iphone.color == 'red' %>
+            <% isRed32 = true %>
           <% end %>
         <% end %>
       <% end %>
@@ -275,6 +285,14 @@ jQuery("document").ready(function($) {
       <% if isBlack32 == true %>
          <button type="button" class="color-spacing iphone-color-black btn btn-default" data-update="color" data-value="black"></button>
       <% end %>
+
+      <% if isJetBlack32 == true %>
+         <button type="button" class="color-spacing iphone-color-jetblack btn btn-default" data-update="color" data-value="jetblack"></button>
+      <% end %>
+
+      <% if isRed32 == true %>
+         <button type="button" class="color-spacing iphone-color-red btn btn-default" data-update="color" data-value="red"></button>
+      <% end %>
     </div>
   </div>
 
@@ -284,6 +302,8 @@ jQuery("document").ready(function($) {
       <% isSilver128 = false %>
       <% isGold128 = false %>
       <% isBlack128 = false %>
+      <% isJetBlack128 = false %>
+      <% isRed128 = false %>
 
       <% Iphone.where(phone_type: '7').where(model: 'normal').where(size: 128).each do |iphone| %>
         <% if !iphone.nil? %>
@@ -301,6 +321,14 @@ jQuery("document").ready(function($) {
 
           <% if iphone.color == 'black' %>
             <% isBlack128 = true %>
+          <% end %>
+
+          <% if iphone.color == 'jetblack' %>
+            <% isJetBlack128 = true %>
+          <% end %>
+
+          <% if iphone.color == 'red' %>
+            <% isRed128 = true %>
           <% end %>
         <% end %>
       <% end %>
@@ -320,6 +348,14 @@ jQuery("document").ready(function($) {
       <% if isBlack128 == true %>
          <button type="button" class="color-spacing iphone-color-black btn btn-default" data-update="color" data-value="black"></button>
       <% end %>
+
+      <% if isJetBlack128 == true %>
+         <button type="button" class="color-spacing iphone-color-jetblack btn btn-default" data-update="color" data-value="jetblack"></button>
+      <% end %>
+
+      <% if isRed128 == true %>
+         <button type="button" class="color-spacing iphone-color-red btn btn-default" data-update="color" data-value="red"></button>
+      <% end %>
     </div>
   </div>
 
@@ -329,6 +365,8 @@ jQuery("document").ready(function($) {
       <% isSilver256 = false %>
       <% isGold256 = false %>
       <% isBlack256 = false %>
+      <% isJetBlack256 = false %>
+      <% isRed256 = false %>
 
       <% Iphone.where(phone_type: '7').where(model: 'normal').where(size: 256).each do |iphone| %>
         <% if !iphone.nil? %>
@@ -346,6 +384,14 @@ jQuery("document").ready(function($) {
 
           <% if iphone.color == 'black' %>
             <% isBlack256 = true %>
+          <% end %>
+
+          <% if iphone.color == 'jetblack' %>
+            <% isJetBlack256 = true %>
+          <% end %>
+
+          <% if iphone.color == 'red' %>
+            <% isRed256 = true %>
           <% end %>
         <% end %>
       <% end %>
@@ -365,6 +411,14 @@ jQuery("document").ready(function($) {
       <% if isBlack256 == true %>
          <button type="button" class="color-spacing iphone-color-black btn btn-default" data-update="color" data-value="black"></button>
       <% end %>
+
+      <% if isJetBlack256 == true %>
+         <button type="button" class="color-spacing iphone-color-jetblack btn btn-default" data-update="color" data-value="jetblack"></button>
+      <% end %>
+
+      <% if isRed256 == true %>
+         <button type="button" class="color-spacing iphone-color-red btn btn-default" data-update="color" data-value="red"></button>
+      <% end %>
     </div>
   </div>
 
@@ -374,6 +428,8 @@ jQuery("document").ready(function($) {
       <% isSilver32plus = false %>
       <% isGold32plus = false %>
       <% isBlack32plus = false %>
+      <% isJetBlack32plus = false %>
+      <% isRed32plus = false %>
 
       <% Iphone.where(phone_type: '7').where(model: 'plus').where(size: 32).each do |iphone| %>
         <% if !iphone.nil? %>
@@ -391,6 +447,14 @@ jQuery("document").ready(function($) {
 
           <% if iphone.color == 'black' %>
             <% isBlack32plus = true %>
+          <% end %>
+
+           <% if iphone.color == 'jetblack' %>
+            <% isJetBlack32plus = true %>
+          <% end %>
+
+           <% if iphone.color == 'red' %>
+            <% isRed32plus = true %>
           <% end %>
         <% end %>
       <% end %>
@@ -410,6 +474,14 @@ jQuery("document").ready(function($) {
       <% if isBlack32plus %>
          <button type="button" class="color-spacing iphone-color-black btn btn-default" data-update="color" data-value="black"></button>
       <% end %>
+
+      <% if isJetBlack32plus %>
+         <button type="button" class="color-spacing iphone-color-jetblack btn btn-default" data-update="color" data-value="jetblack"></button>
+      <% end %>
+
+      <% if isRed32plus %>
+         <button type="button" class="color-spacing iphone-color-red btn btn-default" data-update="color" data-value="red"></button>
+      <% end %>
     </div>
   </div>
 
@@ -419,6 +491,8 @@ jQuery("document").ready(function($) {
       <% isSilver128plus = false %>
       <% isGold128plus = false %>
       <% isBlack128plus = false %>
+      <% isJetBlack128plus = false %>
+      <% isRed128plus = false %>
 
       <% Iphone.where(phone_type: '7').where(model: 'plus').where(size: 128).each do |iphone| %>
         <% if !iphone.nil? %>
@@ -436,6 +510,14 @@ jQuery("document").ready(function($) {
 
           <% if iphone.color == 'black' %>
             <% isBlack128plus = true %>
+          <% end %>
+
+          <% if iphone.color == 'jetblack' %>
+            <% isJetBlack128plus = true %>
+          <% end %>
+
+          <% if iphone.color == 'red' %>
+            <% isRed128plus = true %>
           <% end %>
         <% end %>
       <% end %>
@@ -455,6 +537,14 @@ jQuery("document").ready(function($) {
       <% if isBlack128plus %>
          <button type="button" class="color-spacing iphone-color-black btn btn-default" data-update="color" data-value="black"></button>
       <% end %>
+
+      <% if isJetBlack128plus %>
+         <button type="button" class="color-spacing iphone-color-jetblack btn btn-default" data-update="color" data-value="jetblack"></button>
+      <% end %>
+
+      <% if isRed128plus %>
+         <button type="button" class="color-spacing iphone-color-red btn btn-default" data-update="color" data-value="red"></button>
+      <% end %>
     </div>
   </div>
 
@@ -464,6 +554,8 @@ jQuery("document").ready(function($) {
       <% isSilver256plus = false %>
       <% isGold256plus = false %>
       <% isBlack256plus = false %>
+      <% isJetBlack256plus = false %>
+      <% isRed256plus = false %>
 
       <% Iphone.where(phone_type: '7').where(model: 'plus').where(size: 256).each do |iphone| %>
         <% if !iphone.nil? %>
@@ -482,6 +574,14 @@ jQuery("document").ready(function($) {
           <% if iphone.color == 'black' %>
             <% isBlack256plus = true %>
           <% end %>
+
+          <% if iphone.color == 'jetblack' %>
+            <% isJetBlack256plus = true %>
+          <% end %>
+
+          <% if iphone.color == 'red' %>
+            <% isRed256plus = true %>
+          <% end %>
         <% end %>
       <% end %>
 
@@ -499,6 +599,14 @@ jQuery("document").ready(function($) {
 
       <% if isBlack256plus %>
          <button type="button" class="color-spacing iphone-color-black btn btn-default" data-update="color" data-value="black"></button>
+      <% end %>
+
+      <% if isJetBlack256plus %>
+         <button type="button" class="color-spacing iphone-color-jetblack btn btn-default" data-update="color" data-value="jetblack"></button>
+      <% end %>
+
+      <% if isRed256plus %>
+         <button type="button" class="color-spacing iphone-color-red btn btn-default" data-update="color" data-value="red"></button>
       <% end %>
     </div>
   </div>
